@@ -14,7 +14,7 @@ const Home: NextPage = () => {
           ))}
         </ul>
         <div className="mt-2 flex justify-between border-t-2 border-dashed pt-2">
-          <span>Total</span>
+          <span>Totall</span>
           <span className="font-semibold">$20</span>
         </div>
         <button className="mx-auto mt-5 flex w-1/2 items-center justify-center rounded-lg bg-blue-500 p-3 text-center text-white ">
