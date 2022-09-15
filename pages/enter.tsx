@@ -78,7 +78,7 @@ export default function Enter() {
             <div className="absolute w-full border-t border-gray-300" />
             <div className="relative -top-3 text-center">
               <span className="bg-white px-3 text-sm text-gray-500">
-                다른 방법으로 로그인
+                SNS로 계정 로그인하기
               </span>
             </div>
           </div>
