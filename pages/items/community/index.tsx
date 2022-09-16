@@ -1,25 +1,28 @@
 import type { NextPage } from "next";
 
-const Home: NextPage = () => {
+const Community: NextPage = () => {
   return (
-    <div className="flex flex-col pt-5">
-      {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-        <div
-          key={i}
-          className="flex cursor-pointer justify-between border-b px-5 py-4 transition hover:bg-gray-100"
-        >
-          <div className="flex space-x-4">
-            <div className="h-20 w-20 rounded-md bg-gray-500" />
-            <div className="flex flex-col pt-2">
-              <h3 className="text-sm font-medium text-gray-900">
-                New iPhone 14
-              </h3>
-              <span className="text-xs text-gray-500">Black</span>
-              <span className="mt-1 font-medium text-gray-900">$95</span>
-            </div>
+    <div className="space-y-8 py-16 px-5">
+      {/* 질문 리스트 */}
+      {[1, 2, 3, 4, 5, 6].map((_, i) => (
+        <div key={i} className="flex cursor-pointer flex-col items-start">
+          {/* 태그 */}
+          <span className="mb-0.5 flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
+            동네질문
+          </span>
+          {/* 질문 제목 */}
+          <div className="font-medium text-gray-700">
+            <span className="text-orange-500">Q. </span>
+            <span className="font-medium hover:font-bold">먹을거 추천점</span>
           </div>
-          <div className="flex items-end justify-end space-x-2">
-            <div className="flex items-center space-x-0.5 text-sm">
+          {/* 질문 작성자 */}
+          <div className="mt-5 flex w-full items-center justify-between text-xs font-medium text-gray-700">
+            <span>제이비</span>
+            <span>18시간 전</span>
+          </div>
+          {/* 궁금해요, 답변란 */}
+          <div className="mt-3 flex w-full space-x-5 border-t border-b-2 py-3 text-gray-700">
+            <span className="flex items-center space-x-2 text-sm">
               <svg
                 className="h-4 w-4"
                 fill="none"
@@ -31,12 +34,12 @@ const Home: NextPage = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>1</span>
-            </div>
-            <div className="flex items-center space-x-0.5 text-sm">
+              <span>궁금해요 1</span>
+            </span>
+            <span className="flex items-center space-x-2 text-sm">
               <svg
                 className="h-4 w-4"
                 fill="none"
@@ -51,8 +54,8 @@ const Home: NextPage = () => {
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 ></path>
               </svg>
-              <span>1</span>
-            </div>
+              <span>답변 1</span>
+            </span>
           </div>
         </div>
       ))}
@@ -60,22 +63,21 @@ const Home: NextPage = () => {
       <button className="fixed bottom-20 right-5 cursor-pointer rounded-full border bg-orange-400 p-5 text-white shadow-xl transition-colors hover:bg-orange-500">
         <svg
           className="h-6 w-6"
-          xmlns="http://www.w3.org/2000/svg"
           fill="none"
-          viewBox="0 0 24 24"
           stroke="currentColor"
-          aria-hidden="true"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="2"
-            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-          />
+            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+          ></path>
         </svg>
       </button>
     </div>
   );
 };
 
-export default Home;
+export default Community;
