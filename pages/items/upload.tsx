@@ -26,6 +26,21 @@ const Upload: NextPage = () => {
           <input id="upload" className="hidden" type="file" />
         </label>
       </div>
+      {/* 상품명 */}
+      <div className="mb-5">
+        <label
+          htmlFor="name"
+          className="mb-2 block text-sm font-bold text-gray-700"
+        >
+          상품명
+        </label>
+        <input
+          id="name"
+          type="text"
+          required
+          className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+        />
+      </div>
       {/* 가격 */}
       <div className="mb-5">
         <label
