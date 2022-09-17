@@ -5,7 +5,7 @@ import Layout from "../../components/layout";
 const Chats: NextPage = () => {
   return (
     <Layout title="채팅" hasTabBar>
-      <div className="divide-y-[1px] py-3">
+      <div className="flex flex-col divide-y-2 py-3">
         {/* 채팅 1 */}
         {[1, 1, 1, 1, 1].map((_, i) => (
           <Link key={i} href={`/chats/${i}`}>

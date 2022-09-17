@@ -16,6 +16,7 @@ export default function Layout({
   children,
 }: LayoutProps) {
   const router = useRouter();
+
   // 뒤로 가기 버튼
   const goBack = () => {
     router.back();
@@ -92,7 +93,14 @@ export default function Layout({
         <nav className="fixed bottom-0 flex w-full max-w-lg items-center justify-between border-t bg-white pb-2 pt-3 font-medium text-gray-700">
           {/* 홈 아이콘 */}
           <Link href="/">
-            <a className="flex flex-col items-center space-y-2 px-5 text-xs">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 px-5 text-xs hover:text-orange-400",
+                router.pathname === "/"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -112,7 +120,14 @@ export default function Layout({
           </Link>
           {/* 동네생활 아이콘 */}
           <Link href="/community">
-            <a className="flex flex-col items-center space-y-2 px-5 text-xs">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 px-5 text-xs hover:text-orange-400",
+                router.pathname === "/community"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -132,7 +147,14 @@ export default function Layout({
           </Link>
           {/* 채팅방 아이콘 */}
           <Link href="/chats">
-            <a className="flex flex-col items-center space-y-2 px-5 text-xs">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 px-5 text-xs hover:text-orange-400",
+                router.pathname === "/chats"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -152,7 +174,14 @@ export default function Layout({
           </Link>
           {/* 라이브 아이콘 */}
           <Link href="/stream">
-            <a className="flex flex-col items-center space-y-2 px-5 text-xs">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 px-5 text-xs hover:text-orange-400",
+                router.pathname === "/stream"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -172,7 +201,14 @@ export default function Layout({
           </Link>
           {/* 마이페이지 아이콘 */}
           <Link href="/profile">
-            <a className="flex flex-col items-center space-y-2 px-5 text-xs">
+            <a
+              className={cls(
+                "flex flex-col items-center space-y-2 px-5 text-xs hover:text-orange-400",
+                router.pathname === "/profile"
+                  ? "text-orange-500"
+                  : "transition-colors hover:text-gray-500"
+              )}
+            >
               <svg
                 className="h-6 w-6"
                 fill="none"
