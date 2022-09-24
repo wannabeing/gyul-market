@@ -1,6 +1,6 @@
 import { NextPage } from "next";
-import FixBtn from "../../components/fixBtn";
-import Layout from "../../components/layout";
+import FixBtn from "@components/fixBtn";
+import Layout from "@components/layout";
 
 const CreateStream: NextPage = () => {
   return (

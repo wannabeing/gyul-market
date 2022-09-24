@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import FixBtn from "../components/fixBtn";
-import Item from "../components/item";
-import Layout from "../components/layout";
+import FixBtn from "@components/fixBtn";
+import Item from "@components/item";
+import Layout from "@components/layout";
 
 const Home: NextPage = () => {
   return (
@@ -11,7 +11,7 @@ const Home: NextPage = () => {
           <Item
             key={i}
             title="IPhone 14 mini"
-            price={99}
+            price={222}
             id={i}
             comments={4}
             likes={2}

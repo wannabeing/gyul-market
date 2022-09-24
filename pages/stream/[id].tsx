@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import Layout from "../../components/layout";
-import Message from "../../components/message";
-import SendBtn from "../../components/sendBtn";
+import Layout from "@components/layout";
+import Message from "@components/message";
+import SendBtn from "@components/sendBtn";
 
 const StreamDetail: NextPage = () => {
   return (

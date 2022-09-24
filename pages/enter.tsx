@@ -1,76 +1,175 @@
-import { useState } from "react";
-import { cls } from "../libs/utils";
+import { useEffect, useState } from "react";
+import { cls } from "@libs/client/utils";
+import { useForm } from "react-hook-form";
+import useMutation from "@libs/client/useMutation";
+import { useRouter } from "next/router";
+
+interface IEnterForm {
+  email?: string;
+  phone?: string;
+}
+interface ITokenForm {
+  token: number;
+}
+interface MutationResult {
+  ok: boolean;
+}
 
 export default function Enter() {
+  // React Hook Form
+  const { register, handleSubmit, reset } = useForm<IEnterForm>();
+  const { register: tokenRG, handleSubmit: tokenHS } = useForm<ITokenForm>();
+
+  // POST 유틸리티
+  const [enter, { loading, data, error }] =
+    useMutation<MutationResult>("/api/users/enter");
+  const [tkConfirm, { loading: tkLoading, data: tkData }] =
+    useMutation<MutationResult>("/api/users/confirm");
+
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+
+  // Fn
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  };
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+  // 로그인시 실행되는 함수
+  const onValid = (dataForm: IEnterForm) => {
+    if (loading) return;
+    enter(dataForm);
+  };
+  // 토큰인증시 실행되는 함수
+  const onTokenValid = (dataForm: ITokenForm) => {
+    if (tkLoading) return;
+    tkConfirm(dataForm);
+  };
+  const router = useRouter();
+  useEffect(() => {
+    if (tkData?.ok) {
+      router.push("/");
+    }
+  }, [tkData, router]);
   return (
     <div className="mt-16">
       <h3 className="text-center text-3xl font-bold">Enter to GYUL</h3>
-      <div className="mt-8">
-        <div className="flex flex-col items-center">
-          <h5 className="text-sm font-medium text-gray-500">
-            둘 중에 하나를 고르시오
-          </h5>
-          <div className="my-8 grid w-full grid-cols-2 gap-16 border-b">
-            <button
-              className={cls(
-                "border-b-2 pb-4 font-medium",
-                method === "email"
-                  ? "border-orange-500   text-orange-500"
-                  : "border-transparent text-gray-500"
-              )}
-              onClick={onEmailClick}
+      <div className="mt-12">
+        {data?.ok ? (
+          <form
+            onSubmit={tokenHS(onTokenValid)}
+            className="mt-8 flex flex-col px-4"
+          >
+            <label
+              htmlFor="input"
+              className="text-sm font-medium text-gray-700"
             >
-              이메일
-            </button>
-            <button
-              className={cls(
-                "border-b-2 pb-4 font-medium",
-                method === "phone"
-                  ? "border-orange-500   text-orange-500"
-                  : "border-transparent text-gray-500"
-              )}
-              onClick={onPhoneClick}
-            >
-              휴대폰
-            </button>
-          </div>
-        </div>
-        <form className="mt-8 flex flex-col px-4">
-          <label htmlFor="input" className="text-sm font-medium text-gray-700">
-            {method === "email" ? "이메일" : null}
-            {method === "phone" ? "휴대폰" : null}
-          </label>
-          <div className="mt-1">
-            {method === "email" ? (
+              토큰 인증번호 입력
+            </label>
+            <div className="mt-1">
               <input
-                id="input"
-                type="email"
-                required
+                {...tokenRG("token")}
+                id="token"
+                name="token"
+                type="number"
                 className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+                required
               />
-            ) : null}
-            {method === "phone" ? (
-              <div className="flex rounded-md shadow-sm">
-                <span className="flex select-none items-center justify-center rounded-l-md border border-r-0 border-gray-300 px-3 text-sm text-gray-500 ">
-                  +82
-                </span>
-                <input
-                  id=""
-                  type="number"
-                  required
-                  className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
-                />
+            </div>
+            <button className="focus:ring-off mt-5 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+              {tkLoading ? "인증중" : "토큰 인증"}
+            </button>
+          </form>
+        ) : (
+          <>
+            {/* 선택 Tab */}
+            <div className="flex flex-col items-center">
+              <h5 className="text-sm font-medium text-gray-500">
+                둘 중에 하나를 고르시오
+              </h5>
+              {/* 선택 버튼 */}
+              <div className="my-8 grid w-full grid-cols-2 gap-16 border-b">
+                <button
+                  className={cls(
+                    "border-b-2 pb-4 font-medium",
+                    method === "email"
+                      ? "border-orange-500   text-orange-500"
+                      : "border-transparent text-gray-500"
+                  )}
+                  onClick={onEmailClick}
+                >
+                  이메일
+                </button>
+                <button
+                  className={cls(
+                    "border-b-2 pb-4 font-medium",
+                    method === "phone"
+                      ? "border-orange-500   text-orange-500"
+                      : "border-transparent text-gray-500"
+                  )}
+                  onClick={onPhoneClick}
+                >
+                  휴대폰
+                </button>
               </div>
-            ) : null}
-          </div>
-          <button className="focus:ring-off mt-5 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-            {method === "email" ? "Get login link" : null}
-            {method === "phone" ? "Get one-time password" : null}
-          </button>
-        </form>
+            </div>
+            {/* Form */}
+            <form
+              onSubmit={handleSubmit(onValid)}
+              className="mt-8 flex flex-col px-4"
+            >
+              <label
+                htmlFor="input"
+                className="text-sm font-medium text-gray-700"
+              >
+                {method === "email" ? "이메일" : null}
+                {method === "phone" ? "휴대폰" : null}
+              </label>
+              <div className="mt-1">
+                {method === "email" ? (
+                  <input
+                    {...register("email")}
+                    id="email"
+                    name="email"
+                    type="email"
+                    className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+                    required
+                  />
+                ) : null}
+                {method === "phone" ? (
+                  <div className="flex rounded-md shadow-sm">
+                    <span className="flex select-none items-center justify-center rounded-l-md border border-r-0 border-gray-300 px-3 text-sm text-gray-500 ">
+                      +82
+                    </span>
+                    <input
+                      {...register("phone")}
+                      id="phone"
+                      name="phone"
+                      type="number"
+                      className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+                      required
+                    />
+                  </div>
+                ) : null}
+              </div>
+              <button className="focus:ring-off mt-5 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                {method === "email"
+                  ? loading
+                    ? "로딩중"
+                    : "이메일로 로그인"
+                  : null}
+                {method === "phone"
+                  ? loading
+                    ? "로딩중"
+                    : "휴대폰번호로 로그인"
+                  : null}
+              </button>
+            </form>
+          </>
+        )}
+        {/* sns 로그인 */}
         <div className="mt-12 px-4">
           <div className="relative">
             <div className="absolute w-full border-t border-gray-300" />
