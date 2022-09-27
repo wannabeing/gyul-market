@@ -1,21 +1,36 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import withHandler, { IResponseT } from "@libs/server/withHandler";
+import withHdr, { ResponseType } from "@libs/server/withHdr";
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import twilio from "twilio";
-import SendEmail from "@libs/server/email";
+import sendgrid from "@sendgrid/mail";
+import SendEmail from "@libs/server/nodemailer";
 
-const { TWILIO_SID, TWILIO_TOKEN, TWILIO_MSGID, MY_P } = process.env;
-const { NAV_ID } = process.env;
+const {
+  TWILIO_SID,
+  TWILIO_TOKEN,
+  TWILIO_MSGID,
+  MY_P,
+  SENDGRID_APIKEY,
+  MY_EMAIL,
+} = process.env;
 
+// sendgird 연결 (for mail)
+sendgrid.setApiKey(SENDGRID_APIKEY!);
+
+// twilio 연결 (for sms)
 const twilioClient = twilio(TWILIO_SID, TWILIO_TOKEN);
 
-async function handler(req: NextApiRequest, res: NextApiResponse<IResponseT>) {
+// handler: {ok:true} 반환하는 함수
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>
+) {
   const { email, phone } = req.body;
-  const user = phone ? { phone: phone } : email ? { email } : null;
-  const payload = String(Math.random()).substring(2, 8);
-
+  const user = phone ? { phone } : email ? { email } : null;
+  const payload = String(Math.random()).substring(2, 8); // 임의의 토큰번호
+  // 제출한 데이터가 없을 경우
   if (!user) return res.status(400).json({ ok: false });
+
   // 토큰 생성 및 유저생성
   const token = await client.token.create({
     data: {
@@ -23,7 +38,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponseT>) {
       user: {
         connectOrCreate: {
           create: {
-            name: "Anony",
+            name: "익명",
             ...user,
           },
           where: {
@@ -33,15 +48,25 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponseT>) {
       },
     },
   });
-  // 휴대폰 가입 인증
+  // sms 인증 요청
   if (phone) {
-    /* const msg = await twilioClient.messages.create({
+    /* const sms = await twilioClient.messages.create({
       messagingServiceSid: TWILIO_MSGID,
-      to: MY_P!, // 실제 서비스시, 가입 휴대폰번호 들어가야함
+      to: MY_P!, // 실제 서비스시, phone 변수가 들어가야 함
       body: `귤마켓 인증 요청입니다. 인증번호: ${payload} 🍊`,
     }); */
-  } else if (email) {
-    /* const mailOptions = {
+  }
+  // mail 인증 요청
+  else if (email) {
+    /* ❌ SENDGRID 사용시
+    const mail = await sendgrid.send({
+      from: MY_EMAIL!,
+      to: MY_EMAIL!,
+      subject: "귤마켓 메일 인증 요청 🍊",
+      html: `<p>귤마켓 인증번호: <strong>${payload}</strong></p>`,
+    }); */
+    /* ❌ nodeMailer 사용시 
+    const mailOptions = {
       from: NAV_ID, // 실제 서비스시, 서버 메일 들어가야함
       to: NAV_ID, // 실제 서비스시, 가입 메일 들어가야함
       subject: "귤마켓 메일 인증 요청 🍊",
@@ -51,9 +76,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<IResponseT>) {
     };
     SendEmail().sendMail(mailOptions, (error) => error && console.log(error)); */
   }
-  return res.json({
-    ok: true,
-  });
+
+  return res.json({ ok: true });
 }
-// 고차 함수
-export default withHandler("POST", handler);
+
+export default withHdr({ methods: ["POST"], handler, isPrivate: false });

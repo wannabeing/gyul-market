@@ -13,21 +13,34 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  phone     String?  @unique
-  email     String?  @unique
+  phone     String?   @unique
+  email     String?   @unique
   avatarUrl String?
-  created   DateTime @default(now())
-  upadated  DateTime @updatedAt
+  created   DateTime  @default(now())
+  upadated  DateTime  @updatedAt
   tokens    Token[]
+  products  Product[]
 }
 
 model Token {
   id       Int      @id @default(autoincrement())
   payload  String   @unique
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   Int
   created  DateTime @default(now())
   upadated DateTime @updatedAt
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int
+}
+
+model Product {
+  id       Int      @id @default(autoincrement())
+  name     String
+  imgUrl   String   @db.LongText
+  price    Int
+  des      String   @db.MediumText
+  created  DateTime @default(now())
+  upadated DateTime @updatedAt
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int
 }

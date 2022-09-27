@@ -10,7 +10,7 @@ export default function Message({ text, mytext, avatarUrl }: MessageProps) {
   return (
     <div
       className={cls(
-        mytext ? "justify-center" : "",
+        mytext ? "justify-end" : "",
         "flex items-center space-x-2"
       )}
     >
@@ -18,7 +18,7 @@ export default function Message({ text, mytext, avatarUrl }: MessageProps) {
       <div
         className={cls(
           mytext ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700",
-          "w-1/2 rounded-full p-3 text-sm"
+          "w-1/2 rounded-lg p-3 text-sm"
         )}
       >
         <p>{text}</p>

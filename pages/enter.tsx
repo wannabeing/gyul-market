@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { cls } from "@libs/client/utils";
 import { useForm } from "react-hook-form";
-import useMutation from "@libs/client/useMutation";
 import { useRouter } from "next/router";
+import useMt from "@libs/client/useMt";
 
 interface IEnterForm {
   email?: string;
@@ -16,17 +16,21 @@ interface MutationResult {
 }
 
 export default function Enter() {
+  // email/phone State
+  const [method, setMethod] = useState<"email" | "phone">("email");
+
   // React Hook Form
   const { register, handleSubmit, reset } = useForm<IEnterForm>();
-  const { register: tokenRG, handleSubmit: tokenHS } = useForm<ITokenForm>();
+  const { register: tkRegister, handleSubmit: tkHandleSubmit } =
+    useForm<ITokenForm>();
 
-  // POST 유틸리티
-  const [enter, { loading, data, error }] =
-    useMutation<MutationResult>("/api/users/enter");
-  const [tkConfirm, { loading: tkLoading, data: tkData }] =
-    useMutation<MutationResult>("/api/users/confirm");
+  // POST 유틸리티 (useMt: 대신 API 요청 및 상태/데이터 반환 함수)
+  const [mtEnter, { mtloading, mtdata }] =
+    useMt<MutationResult>("/api/users/enter");
+  const [mtToken, { mtloading: tkLoading, mtdata: tkData }] =
+    useMt<MutationResult>("/api/users/token");
 
-  const [method, setMethod] = useState<"email" | "phone">("email");
+  console.log(tkLoading);
 
   // Fn
   const onEmailClick = () => {
@@ -37,29 +41,33 @@ export default function Enter() {
     reset();
     setMethod("phone");
   };
+
   // 로그인시 실행되는 함수
   const onValid = (dataForm: IEnterForm) => {
-    if (loading) return;
-    enter(dataForm);
+    if (mtloading) return;
+    mtEnter(dataForm);
   };
-  // 토큰인증시 실행되는 함수
+  // 토큰입력시 실행되는 함수
   const onTokenValid = (dataForm: ITokenForm) => {
     if (tkLoading) return;
-    tkConfirm(dataForm);
+    mtToken(dataForm);
   };
+  // 토큰인증시 리다이렉트
   const router = useRouter();
   useEffect(() => {
     if (tkData?.ok) {
       router.push("/");
     }
   }, [tkData, router]);
+
   return (
     <div className="mt-16">
       <h3 className="text-center text-3xl font-bold">Enter to GYUL</h3>
       <div className="mt-12">
-        {data?.ok ? (
+        {mtdata?.ok ? (
+          // 토큰 입력 폼
           <form
-            onSubmit={tokenHS(onTokenValid)}
+            onSubmit={tkHandleSubmit(onTokenValid)}
             className="mt-8 flex flex-col px-4"
           >
             <label
@@ -70,7 +78,7 @@ export default function Enter() {
             </label>
             <div className="mt-1">
               <input
-                {...tokenRG("token")}
+                {...tkRegister("token")}
                 id="token"
                 name="token"
                 type="number"
@@ -83,6 +91,7 @@ export default function Enter() {
             </button>
           </form>
         ) : (
+          // 이메일/휴대폰 로그인 폼
           <>
             {/* 선택 Tab */}
             <div className="flex flex-col items-center">
@@ -156,12 +165,12 @@ export default function Enter() {
               </div>
               <button className="focus:ring-off mt-5 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
                 {method === "email"
-                  ? loading
+                  ? mtloading
                     ? "로딩중"
                     : "이메일로 로그인"
                   : null}
                 {method === "phone"
-                  ? loading
+                  ? mtloading
                     ? "로딩중"
                     : "휴대폰번호로 로그인"
                   : null}

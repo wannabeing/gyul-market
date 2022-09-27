@@ -1,24 +1,39 @@
 import type { NextPage } from "next";
 import FixBtn from "@components/fixBtn";
-import Item from "@components/item";
+import Item from "@components/product";
 import Layout from "@components/layout";
+import useUser from "@libs/client/useUser";
+import useSWR from "swr";
+import { Product } from "@prisma/client";
+
+interface IProducts {
+  ok: boolean;
+  products: Product[];
+}
 
 const Home: NextPage = () => {
+  // 로그인 사용자 정보
+  const { user, userLoading } = useUser();
+  // swr로 상품 정보 가져오기
+  const { data } = useSWR<IProducts>("/api/products");
+  console.log(data);
+
   return (
     <Layout title="홈" hasTabBar>
       <div className="flex flex-col divide-y-2 pt-3">
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+        {data?.products?.map((product) => (
           <Item
-            key={i}
-            title="IPhone 14 mini"
-            price={222}
-            id={i}
+            key={product.id}
+            title={product.name}
+            price={product.price}
+            id={product.id}
             comments={4}
             likes={2}
+            createdAt={product.created}
           />
         ))}
         {/* 픽스 버튼 */}
-        <FixBtn href="/items/upload">
+        <FixBtn href="/products/upload">
           <svg
             className="h-6 w-6"
             xmlns="http://www.w3.org/2000/svg"

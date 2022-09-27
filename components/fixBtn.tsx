@@ -8,7 +8,7 @@ interface IFixBtn {
 export default function FixBtn({ children, href }: IFixBtn) {
   return (
     <Link href={href}>
-      <a className="fixed bottom-4 right-0 cursor-pointer rounded-full border border-transparent bg-orange-500 p-3 text-white shadow-xl transition-colors hover:bg-orange-400">
+      <a className="fixed bottom-28 right-5 rounded-full bg-orange-500 p-4 text-white shadow-xl transition-colors hover:bg-orange-400">
         {children}
       </a>
     </Link>

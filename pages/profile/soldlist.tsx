@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import Item from "@components/item";
+import Product from "@components/product";
 import Layout from "@components/layout";
 
 const SoldList: NextPage = () => {
@@ -7,7 +7,7 @@ const SoldList: NextPage = () => {
     <Layout canGoBack title="판매내역">
       <div className="flex flex-col pt-8">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-          <Item
+          <Product
             key={i}
             title="IPhone 14 mini"
             price={99}

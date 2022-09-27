@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { timeForToday } from "@libs/client/utils";
 
 interface ItemProps {
   title: string;
@@ -6,17 +7,30 @@ interface ItemProps {
   price: number;
   comments: number;
   likes: number;
+  createdAt: Date;
 }
 
-export default function Item({ title, id, price, comments, likes }: ItemProps) {
+export default function Item({
+  title,
+  id,
+  price,
+  comments,
+  likes,
+  createdAt,
+}: ItemProps) {
   return (
-    <Link href={`/items/${id}`}>
-      <a className="flex cursor-pointer justify-between border-b px-5 py-5 transition hover:bg-gray-200">
+    <Link href={`/products/${id}`}>
+      <a className="flex cursor-pointer justify-between border-b-0 px-5 py-5 transition hover:bg-gray-200">
         <div className="flex space-x-5">
           <div className="h-14 w-14 rounded-md bg-gray-500" />
           <div className="flex flex-col pt-2">
             <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-            <span className="mt-1 font-bold text-gray-900">${price}</span>
+            <span className="text-xs text-gray-600">
+              {timeForToday(createdAt) + ""}
+            </span>
+            <span className="mt-1 font-bold text-gray-900">
+              ${price.toLocaleString("en")}
+            </span>
           </div>
         </div>
         <div className="flex items-end justify-end space-x-2">

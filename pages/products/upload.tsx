@@ -1,10 +1,47 @@
 import type { NextPage } from "next";
 import Layout from "@components/layout";
+import { useForm } from "react-hook-form";
+import useMt from "@libs/client/useMt";
+import { Product } from "@prisma/client";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+
+interface UploadProductForm {
+  imgUrl?: string;
+  name: string;
+  price: number;
+  des: string;
+}
+
+interface ProductMutationResult {
+  ok: boolean;
+  product: Product;
+}
 
 const Upload: NextPage = () => {
+  const { register, handleSubmit, reset } = useForm<UploadProductForm>();
+  // API 요청 Hook (상품 업로드 API)
+  const [uploadProduct, { mtloading, mtdata }] =
+    useMt<ProductMutationResult>("/api/products");
+
+  const router = useRouter();
+  useEffect(() => {
+    // 상품 생성시, 해당 상품링크로 이동
+    if (mtdata?.ok) {
+      router.push(`/products/${mtdata.product.id}`);
+    }
+  }, [mtdata, router]);
+
+  const onValid = (dataForm: UploadProductForm) => {
+    if (mtloading) return;
+
+    uploadProduct(dataForm);
+    reset();
+  };
+
   return (
     <Layout canGoBack>
-      <form className="px-5 py-14">
+      <form onSubmit={handleSubmit(onValid)} className="px-5 py-14">
         {/* 이미지 업로드 */}
         <div>
           <label
@@ -37,10 +74,11 @@ const Upload: NextPage = () => {
             상품명
           </label>
           <input
+            {...register("name")}
             id="name"
             type="text"
-            required
             className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+            required
           />
         </div>
         {/* 가격 */}
@@ -58,10 +96,12 @@ const Upload: NextPage = () => {
             </div>
             {/* input */}
             <input
+              {...register("price")}
               id="price"
-              type="text"
+              type="number"
               placeholder="0.00"
               className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pl-7 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+              required
             />
             {/* 원 표시 */}
             <div className="pointer-events-none absolute right-0 flex items-center pr-3">
@@ -75,13 +115,15 @@ const Upload: NextPage = () => {
             상품 설명
           </label>
           <textarea
+            {...register("des")}
             className="w-full rounded-md border border-gray-300 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
             rows={4}
+            required
           />
         </div>
         {/* 업로드 버튼 */}
         <button className="focus:ring-off mt-5 w-full rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-          상품 등록
+          {mtloading ? "등록중" : "상품 등록"}
         </button>
       </form>
     </Layout>
