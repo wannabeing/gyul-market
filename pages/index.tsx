@@ -6,9 +6,13 @@ import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { Product } from "@prisma/client";
 
+interface ProductWithCount extends Product {
+  _count: { favLists: number };
+}
+
 interface IProducts {
   ok: boolean;
-  products: Product[];
+  products: ProductWithCount[];
 }
 
 const Home: NextPage = () => {
@@ -16,7 +20,6 @@ const Home: NextPage = () => {
   const { user, userLoading } = useUser();
   // swr로 상품 정보 가져오기
   const { data } = useSWR<IProducts>("/api/products");
-  console.log(data);
 
   return (
     <Layout title="홈" hasTabBar>
@@ -27,8 +30,7 @@ const Home: NextPage = () => {
             title={product.name}
             price={product.price}
             id={product.id}
-            comments={4}
-            likes={2}
+            likes={product._count.favLists}
             createdAt={product.created}
           />
         ))}

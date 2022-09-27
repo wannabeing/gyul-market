@@ -81,7 +81,9 @@ export default function Layout({
         ) : null}
         {/* Title */}
         {title ? (
-          <span className={cls(canGoBack ? "p-3" : "", "font-bold")}>
+          <span
+            className={cls(canGoBack ? "p-3" : "", "border-none font-bold")}
+          >
             {title}
           </span>
         ) : null}

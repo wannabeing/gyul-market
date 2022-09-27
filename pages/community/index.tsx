@@ -2,30 +2,52 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import FixBtn from "@components/fixBtn";
 import Layout from "@components/layout";
+import useSWR from "swr";
+import { Post, User } from "@prisma/client";
+import { cls, timeForToday } from "@libs/client/utils";
+import useLocation from "@libs/client/useLocation";
+
+interface PostWithUser extends Post {
+  user: User;
+  _count: { answers: number; curious: number };
+}
+interface PostResponse {
+  ok: boolean;
+  posts: PostWithUser[];
+}
 
 const Community: NextPage = () => {
+  // SWR로 동네생활 글목록 조회 (GET)
+  const { data } = useSWR<PostResponse>(`/api/posts`);
+
   return (
     <Layout title="동네생활" hasTabBar>
       <div className="space-y-8 py-12 px-5">
         {/* 질문 리스트 */}
-        {[1, 2, 3, 4, 5, 6].map((_, i) => (
-          <Link key={i} href={`/community/${i}`}>
+        {data?.posts.map((post) => (
+          <Link key={post.id} href={`/community/${post.id}`}>
             <a className="flex cursor-pointer flex-col items-start">
               {/* 태그 */}
-              <span className="mb-0.5 flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-700">
-                동네질문
+              <span
+                className={cls(
+                  post.latitude && post.longitude
+                    ? "mb-0.5 flex items-center rounded-full bg-green-600 px-2.5 py-1 text-xs font-bold text-white"
+                    : "hidden"
+                )}
+              >
+                동네인증
               </span>
               {/* 질문 제목 */}
               <div className="font-medium text-gray-700">
                 <span className="text-orange-500">Q. </span>
                 <span className="font-medium hover:font-bold">
-                  먹을거 추천점
+                  {post.question}
                 </span>
               </div>
               {/* 질문 작성자 */}
               <div className="mt-5 flex w-full items-center justify-between text-xs font-medium text-gray-700">
-                <span>제이비</span>
-                <span>18시간 전</span>
+                <span>{post.user.name}</span>
+                <span>{timeForToday(post.created) + ""}</span>
               </div>
               {/* 궁금해요, 답변란 */}
               <div className="mt-3 flex w-full space-x-5 border-t border-b-2 py-3 text-gray-700">
@@ -44,7 +66,7 @@ const Community: NextPage = () => {
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     ></path>
                   </svg>
-                  <span>궁금해요 1</span>
+                  <span>궁금해요 {post._count.curious}</span>
                 </span>
                 <span className="flex items-center space-x-2 text-sm">
                   <svg
@@ -61,7 +83,7 @@ const Community: NextPage = () => {
                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                     ></path>
                   </svg>
-                  <span>답변 1</span>
+                  <span>답변 {post._count.answers}</span>
                 </span>
               </div>
             </a>

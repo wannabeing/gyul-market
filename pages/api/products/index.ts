@@ -1,4 +1,4 @@
-// 상품 등록 API
+// 상품 등록 API (POST)
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
@@ -31,9 +31,15 @@ async function handler(
       product,
     });
   }
-  // 상품 조회
+  // 모든  상품 조회
   if (req.method === "GET") {
-    const products = await client.product.findMany({});
+    const products = await client.product.findMany({
+      include: {
+        _count: {
+          select: { favLists: true },
+        },
+      },
+    });
     res.json({
       ok: true,
       products,
