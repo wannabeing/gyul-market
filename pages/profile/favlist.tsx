@@ -2,14 +2,14 @@ import { NextPage } from "next";
 import Layout from "@components/layout";
 import ProductList from "@components/productList";
 
-const Buylist: NextPage = () => {
+const Favlist: NextPage = () => {
   return (
-    <Layout canGoBack title="구매내역">
+    <Layout canGoBack title="관심목록">
       <div className="flex flex-col pt-8">
-        <ProductList kind="buyList" />
+        <ProductList kind="favList" />
       </div>
     </Layout>
   );
 };
 
-export default Buylist;
+export default Favlist;

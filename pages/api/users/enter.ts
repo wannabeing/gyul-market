@@ -52,7 +52,7 @@ async function handler(
   if (phone) {
     /* const sms = await twilioClient.messages.create({
       messagingServiceSid: TWILIO_MSGID,
-      to: MY_P!, // 실제 서비스시, phone 변수가 들어가야 함
+      to: MY_P!, // 실제 서비스시, phone 변수가 들어가야 함 (+82 추가해야함)
       body: `귤마켓 인증 요청입니다. 인증번호: ${payload} 🍊`,
     }); */
   }

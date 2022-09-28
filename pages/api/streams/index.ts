@@ -1,4 +1,4 @@
-// 상품 관련 API
+// 라이브스트림 생성 POST, 모든 라이브스트림 조회 GET
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
@@ -9,16 +9,14 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  // 상품 생성
+  // 라이브 스트림 생성 (POST)
   if (req.method === "POST") {
-    const { name, price, des } = req.body;
+    const { name } = req.body;
     const { user } = req.session;
-    const product = await client.product.create({
+
+    const stream = await client.liveStream.create({
       data: {
         name,
-        price,
-        des,
-        imgUrl: "",
         user: {
           connect: {
             id: user?.id,
@@ -26,27 +24,27 @@ async function handler(
         },
       },
     });
+
     res.json({
       ok: true,
-      product,
+      stream,
     });
   }
-  // 모든  상품 조회
+  // 모든 라이브 스트림 조회 (GET)
   if (req.method === "GET") {
-    const products = await client.product.findMany({
-      include: {
-        _count: {
-          select: { favLists: true },
-        },
+    const streams = await client.liveStream.findMany({
+      select: {
+        id: true,
+        name: true,
+        created: true,
       },
     });
+
     res.json({
       ok: true,
-      products,
+      streams,
     });
   }
 }
 // 고차 함수 (쿠키 사용)
-export default withIronSession(
-  withHdr({ methods: ["POST", "GET"], handler: handler })
-);
+export default withIronSession(withHdr({ methods: ["GET", "POST"], handler }));

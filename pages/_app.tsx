@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { SWRConfig } from "swr";
+import LoginCheck from "@components/loginCheck";
 
 function MyApp({ Component, pageProps }: AppProps) {
   // SWR fetcher function
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <div className="mx-auto w-full max-w-lg">
+        <LoginCheck />
         <Component {...pageProps} />
       </div>
     </SWRConfig>

@@ -3,8 +3,24 @@ import Link from "next/link";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import useSWR from "swr";
+import { Review, User } from "@prisma/client";
+import { cls } from "@libs/client/utils";
+
+interface ReviewWithUser extends Review {
+  writer: User;
+}
+interface ReviewResponse {
+  ok: boolean;
+  reviews: ReviewWithUser[];
+}
 
 const Profile: NextPage = () => {
+  // 로그인 유저정보 가져오기
+  const { user, userLoading } = useUser();
+
+  // swr(GET) 이용하여 로그인유저의 리뷰 가져오기
+  const { data: reviewData } = useSWR<ReviewResponse>("/api/reviews");
+
   return (
     <Layout title="나의 귤" hasTabBar>
       <div className="py-10 px-5">
@@ -13,10 +29,15 @@ const Profile: NextPage = () => {
           {/* 프로필 이미지 */}
           <div className="h-16 w-16 rounded-full bg-gray-500" />
           <div className="flex flex-col">
-            <span className="font-medium text-gray-700">Steve Jebs</span>
+            {/* 닉네임 및 프로필 수정 */}
+            {userLoading ? (
+              <div className="rounded-md bg-gray-200 p-3 font-medium text-gray-700" />
+            ) : (
+              <span className="font-medium text-gray-700">{user?.name}</span>
+            )}
             <Link href="/profile/edit">
-              <a className="cursor-pointer text-sm text-gray-700 hover:font-bold">
-                Edit profile &rarr;
+              <a className="cursor-pointer rounded-md text-sm text-gray-700 hover:font-bold hover:text-orange-500">
+                {"프로필 수정 >"}
               </a>
             </Link>
           </div>
@@ -72,7 +93,7 @@ const Profile: NextPage = () => {
             </a>
           </Link>
           {/* 관심목록 */}
-          <Link href="/profile/likelist">
+          <Link href="/profile/favlist">
             <a className="flex cursor-pointer flex-col items-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-500 text-white hover:bg-orange-400">
                 <svg
@@ -97,75 +118,75 @@ const Profile: NextPage = () => {
           </Link>
         </div>
         {/* 리뷰 리스트 */}
-        <div className="mt-7">
-          {/* 리뷰 작성자 프로필 */}
-          <div className="flex items-center space-x-4">
-            {/* 프로필 이미지 */}
-            <div className="h-12 w-12 rounded-full bg-gray-500" />
-            <div>
-              <h4 className="text-sm font-bold text-gray-700">니꼬</h4>
-              {/* 별 아이콘 */}
-              <div className="flex items-center">
-                <svg
-                  className="h-4 w-4 text-yellow-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  className="h-4 w-4 text-yellow-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  className="h-4 w-4 text-yellow-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  className="h-4 w-4 text-yellow-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <svg
-                  className="h-4 w-4 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
+        {userLoading ? (
+          // 로딩
+          <div className="mt-2 border-b py-3">
+            {/* 리뷰 작성자 프로필 */}
+            <div className="flex items-center space-x-4">
+              {/* 프로필 이미지 */}
+              <div className="h-12 w-12 rounded-full bg-gray-500" />
+              <div>
+                <div className="rounded-md bg-gray-200 p-3 text-sm font-bold text-gray-700"></div>
+                {/* 별 아이콘 */}
+                <div className="flex items-center">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg
+                      key={star}
+                      className="h-4 w-4 text-yellow-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
               </div>
             </div>
+            {/* 리뷰 내용 */}
+            <div className="mt-4 rounded-md bg-gray-200 p-3 text-sm text-gray-700"></div>
           </div>
-          {/* 리뷰 내용 */}
-          <div className="mt-4 text-sm text-gray-700">
-            <p>
-              Normally, both your asses would be dead as fucking fried chicken,
-              but you happen to pull this shit while I&apos;m in a transitional
-              period so I don&apos;t wanna kill you, I wanna help you. But I
-              can&apos;t give you this case, it don&apos;t belong to me.
-              Besides, I&apos;ve already been through too much shit this morning
-              over this case to hand it over to your dumb ass.
-            </p>
-          </div>
-        </div>
+        ) : (
+          reviewData?.reviews.map((review) => (
+            <div key={review.id} className="mt-2 border-b py-3">
+              {/* 리뷰 작성자 프로필 */}
+              <div className="flex items-center space-x-4">
+                {/* 프로필 이미지 */}
+                <div className="h-12 w-12 rounded-full bg-gray-500" />
+                <div>
+                  <h4 className="text-sm font-bold text-gray-700">
+                    {review.writer.name}
+                  </h4>
+                  {/* 별 아이콘 */}
+                  <div className="flex items-center">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <svg
+                        key={star}
+                        className={cls(
+                          review.grade >= star
+                            ? "text-yellow-400"
+                            : "text-gray-400",
+                          "h-4 w-4"
+                        )}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              {/* 리뷰 내용 */}
+              <div className="mt-4 text-sm text-gray-700">
+                <p>{review.review}</p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </Layout>
   );

@@ -30,8 +30,6 @@ export default function Enter() {
   const [mtToken, { mtloading: tkLoading, mtdata: tkData }] =
     useMt<MutationResult>("/api/users/token");
 
-  console.log(tkLoading);
-
   // Fn
   const onEmailClick = () => {
     reset();
@@ -156,7 +154,7 @@ export default function Enter() {
                       {...register("phone")}
                       id="phone"
                       name="phone"
-                      type="number"
+                      type="text"
                       className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
                       required
                     />

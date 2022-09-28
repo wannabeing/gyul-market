@@ -49,6 +49,9 @@ async function handler(
     },
   });
 
+  // 없는 질문글에 접근시 false 반환
+  if (!post) return res.json({ ok: false });
+
   // 찾은 글이 궁금해요 눌렀는지 확인
   const isCurious = Boolean(
     await client.curiousPost.findFirst({

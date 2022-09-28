@@ -1,24 +1,15 @@
 import { NextPage } from "next";
-import Product from "@components/product";
 import Layout from "@components/layout";
+import ProductList from "@components/productList";
 
-const SoldList: NextPage = () => {
+const Soldlist: NextPage = () => {
   return (
     <Layout canGoBack title="판매내역">
       <div className="flex flex-col pt-8">
-        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-          <Product
-            key={i}
-            title="IPhone 14 mini"
-            price={99}
-            id={i}
-            comments={4}
-            likes={2}
-          />
-        ))}
+        <ProductList kind="soldList" />
       </div>
     </Layout>
   );
 };
 
-export default SoldList;
+export default Soldlist;

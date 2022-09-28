@@ -92,7 +92,7 @@ export default function Layout({
       <div className={cls("pt-10", hasTabBar ? "pb-14" : "")}>{children}</div>
       {/* Tab Bar */}
       {hasTabBar ? (
-        <nav className="fixed bottom-4 flex w-full max-w-lg items-center justify-between border-t bg-white pt-3 pb-3 font-medium text-gray-700">
+        <nav className="fixed bottom-0 flex w-full max-w-lg items-center justify-between border-t bg-white pt-3 pb-3 font-medium text-gray-700">
           {/* 홈 아이콘 */}
           <Link href="/">
             <a
@@ -175,11 +175,11 @@ export default function Layout({
             </a>
           </Link>
           {/* 라이브 아이콘 */}
-          <Link href="/stream">
+          <Link href="/streams">
             <a
               className={cls(
                 "flex flex-col items-center space-y-2 px-5 text-xs hover:text-orange-400",
-                router.pathname === "/stream"
+                router.pathname === "/streams"
                   ? "text-orange-500"
                   : "transition-colors hover:text-gray-500"
               )}

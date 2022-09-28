@@ -96,7 +96,7 @@ const Upload: NextPage = () => {
             </div>
             {/* input */}
             <input
-              {...register("price")}
+              {...register("price", { valueAsNumber: true })}
               id="price"
               type="number"
               placeholder="0.00"
