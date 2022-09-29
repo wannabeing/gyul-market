@@ -2,7 +2,7 @@ import { cls } from "@libs/client/utils";
 
 interface MessageProps {
   text: string;
-  mytext?: boolean;
+  mytext: boolean;
   avatarUrl?: string;
 }
 

@@ -1,4 +1,4 @@
-// 특정 라이브스트림 조회 GET
+// 라이브스트림 메시지 생성 POST
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
@@ -9,21 +9,31 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
+  const { user } = req.session;
   const { id } = req.query;
+  const { msg } = req.body;
   if (!id) return;
 
-  const stream = await client.liveStream.findUnique({
-    where: {
-      id: +id.toString(),
+  const streamMsg = await client.liveMessage.create({
+    data: {
+      msg,
+      user: {
+        connect: {
+          id: user?.id,
+        },
+      },
+      livestream: {
+        connect: {
+          id: +id.toString(),
+        },
+      },
     },
   });
-  // 존재하지 않는 라이브스트림 조회시 false 반환
-  if (!stream) return res.json({ ok: false });
 
   res.json({
     ok: true,
-    stream,
+    streamMsg,
   });
 }
 // 고차 함수 (쿠키 사용)
-export default withIronSession(withHdr({ methods: ["GET"], handler }));
+export default withIronSession(withHdr({ methods: ["POST"], handler }));

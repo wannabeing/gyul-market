@@ -7,6 +7,9 @@ import { Post, User } from "@prisma/client";
 import { cls, timeForToday } from "@libs/client/utils";
 import useLocation from "@libs/client/useLocation";
 import LoadingList from "@components/loadingList";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import Page from "twilio/lib/base/Page";
 
 interface PostWithUser extends Post {
   user: User;
@@ -18,8 +21,23 @@ interface PostResponse {
 }
 
 const Community: NextPage = () => {
+  const [page, setPage] = useState(1);
+  const { handleSubmit } = useForm();
+
   // SWR로 동네생활 글목록 조회 (GET)
-  const { data } = useSWR<PostResponse>(`/api/posts`);
+  const { data } = useSWR<PostResponse>(`/api/posts?page=${page}`);
+
+  // 더보기 클릭 시 실행되는 함수
+  const onValid = () => {
+    setPage((prev) => prev + 1);
+  };
+  // 더보기 클릭시 스크롤 자동 이동
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (data && data.ok) {
+      scrollRef?.current?.scrollIntoView();
+    }
+  }, [data]);
 
   return (
     <Layout title="동네생활" hasTabBar>
@@ -51,6 +69,7 @@ const Community: NextPage = () => {
                   <span>{post.user.name}</span>
                   <span>{timeForToday(post.created) + ""}</span>
                 </div>
+
                 {/* 궁금해요, 답변란 */}
                 <div className="mt-3 flex w-full space-x-5 border-t border-b-2 py-3 text-gray-700">
                   <span className="flex items-center space-x-2 text-sm">
@@ -95,6 +114,14 @@ const Community: NextPage = () => {
       ) : (
         <LoadingList />
       )}
+      <div ref={scrollRef} />
+      <div className="mx-5 mb-12 mt-4 flex items-center justify-center hover:text-orange-500">
+        <form onSubmit={handleSubmit(onValid)}>
+          <button className="flex rounded-md bg-gray-200 p-2 px-5 text-sm hover:font-bold">
+            더보기
+          </button>
+        </form>
+      </div>
       {/* 픽스 버튼 */}
       <FixBtn href="/community/write">
         <svg

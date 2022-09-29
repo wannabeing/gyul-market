@@ -26,7 +26,7 @@ const CommunityWrite: NextPage = () => {
   useEffect(() => {
     // 게시글 생성시, 해당 글 링크로 이동
     if (mtdata?.ok) {
-      router.push(`/community/${mtdata.post.id}`);
+      router.replace(`/community/${mtdata.post.id}`);
     }
   }, [mtdata, router]);
 

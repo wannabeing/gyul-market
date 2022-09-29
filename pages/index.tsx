@@ -6,6 +6,8 @@ import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { Product } from "@prisma/client";
 import LoadingList from "@components/loadingList";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export interface ProductWithCount extends Product {
   _count: { favLists: number };
@@ -17,10 +19,25 @@ interface IProducts {
 }
 
 const Home: NextPage = () => {
+  const [page, setPage] = useState(1);
+  const { handleSubmit } = useForm();
+
   // 로그인 사용자 정보
   const { user, userLoading } = useUser();
   // swr로 상품 정보 가져오기
-  const { data } = useSWR<IProducts>("/api/products");
+  const { data } = useSWR<IProducts>(`/api/products?page=${page}`);
+
+  // 더보기 클릭 시 실행되는 함수
+  const onValid = () => {
+    setPage((prev) => prev + 1);
+  };
+  // 더보기 클릭시 스크롤 자동 이동
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (data && data.ok) {
+      scrollRef?.current?.scrollIntoView();
+    }
+  }, [data]);
 
   return (
     <Layout title="홈" hasTabBar>
@@ -40,6 +57,14 @@ const Home: NextPage = () => {
       ) : (
         <LoadingList />
       )}
+      <div ref={scrollRef} />
+      <div className="mx-5 mb-12 mt-4 flex items-center justify-center hover:text-orange-500">
+        <form onSubmit={handleSubmit(onValid)}>
+          <button className="flex rounded-md bg-gray-200 p-2 px-5 text-sm hover:font-bold">
+            더보기
+          </button>
+        </form>
+      </div>
       {/* 픽스 버튼 */}
       <FixBtn href="/products/upload">
         <svg

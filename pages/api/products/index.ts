@@ -33,13 +33,21 @@ async function handler(
   }
   // 모든  상품 조회
   if (req.method === "GET") {
+    const { page } = req.query;
+    if (!page) return;
+
     const products = await client.product.findMany({
       include: {
         _count: {
           select: { favLists: true },
         },
       },
+      take: 5 * +page.toString(),
+      orderBy: {
+        created: "desc",
+      },
     });
+
     res.json({
       ok: true,
       products,

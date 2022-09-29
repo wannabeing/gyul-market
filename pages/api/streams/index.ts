@@ -38,6 +38,10 @@ async function handler(
         name: true,
         created: true,
       },
+      take: 10,
+      orderBy: {
+        created: "asc",
+      },
     });
 
     res.json({

@@ -1,5 +1,9 @@
+import { UseFormRegisterReturn } from "react-hook-form";
+
 interface sendBtnProps {
-  name?: string;
+  name: string;
+  register: UseFormRegisterReturn;
+  required: true;
 }
 export default function SendBtn({ name }: sendBtnProps) {
   return (

@@ -28,8 +28,10 @@ async function handler(
     });
   }
   // 동네생활-모든 작성글 조회 (GET)
-  else if (req.method === "GET") {
-    // pagination 하여 조회해야함
+  if (req.method === "GET") {
+    const { page } = req.query;
+    if (!page) return;
+
     const posts = await client.post.findMany({
       select: {
         id: true,
@@ -46,6 +48,10 @@ async function handler(
             curious: true,
           },
         },
+      },
+      take: 3 * +page.toString(),
+      orderBy: {
+        created: "desc",
       },
     });
 
