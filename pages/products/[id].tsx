@@ -34,7 +34,11 @@ const ItemDetail: NextPage = () => {
     } else {
       setLoading(true);
     }
-  }, [data]);
+    // 없는 상품으로 접속 시, replace
+    if (data && !data.ok) {
+      router.replace("/");
+    }
+  }, [data, router]);
 
   // API 요청 (관심목록 생성 및 삭제, POST)
   const [cdFavList] = useMt(`/api/products/${router.query.id}/fav`);
@@ -94,7 +98,16 @@ const ItemDetail: NextPage = () => {
           // ❌ 로딩 끝 ❌
           <div className="mb-5 border-b pb-5">
             {/* 상품 상세 이미지 */}
-            <div className="h-96 rounded-md bg-gray-300" />
+            {data?.product.imgUrl ? (
+              <div className="flex items-center justify-center">
+                <img
+                  className="flex h-96 justify-center rounded-md"
+                  src={`https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${data?.product.imgUrl}/public`}
+                />
+              </div>
+            ) : (
+              <div className="h-96 rounded-md bg-gray-300" />
+            )}
             {/* 유저 프로필 */}
             <Link href={`/profiles/${data?.product?.user?.name}`}>
               <a className="flex cursor-pointer items-center space-x-3 border-b py-5 transition hover:text-orange-500">

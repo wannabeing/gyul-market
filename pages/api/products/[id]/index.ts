@@ -11,7 +11,6 @@ async function handler(
 ) {
   const { id } = req.query;
   const { user } = req.session;
-
   if (!id) return;
 
   // 상품/상품 판매자 찾기
@@ -19,8 +18,9 @@ async function handler(
     where: { id: +id.toString() },
     include: { user: { select: { id: true, name: true, avatarUrl: true } } },
   });
+  if (!product) return res.json({ ok: false });
 
-  //  비슷한 상품 찾기 (최대 4개)
+  // 비슷한 상품 찾기 (최대 4개)
   const terms = product?.name.split(" ").map((word) => ({
     name: {
       contains: word,
@@ -48,7 +48,7 @@ async function handler(
     })
   );
 
-  res.json({
+  return res.json({
     ok: true,
     product,
     relatedProducts,

@@ -27,7 +27,10 @@ const Profile: NextPage = () => {
         {/* 프로필 */}
         <div className="flex items-center space-x-3">
           {/* 프로필 이미지 */}
-          <div className="h-16 w-16 rounded-full bg-gray-500" />
+          <img
+            src={`https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${user?.avatarUrl}/public`}
+            className="h-16 w-16 rounded-full bg-gray-500"
+          />
           <div className="flex flex-col">
             {/* 닉네임 및 프로필 수정 */}
             {userLoading ? (

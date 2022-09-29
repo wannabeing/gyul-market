@@ -2,15 +2,17 @@ import { NextPage } from "next";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { cls } from "@libs/client/utils";
 import useMt from "@libs/client/useMt";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
 interface EditForm {
   name?: string;
   email?: string;
   phone?: string;
+  avatarUrl?: FileList;
   formError?: string;
 }
 interface EditResponse {
@@ -22,6 +24,7 @@ interface EditResponse {
 const EditProfile: NextPage = () => {
   const { user } = useUser();
   const router = useRouter();
+
   // 리액트 훅 폼
   const {
     register,
@@ -29,6 +32,7 @@ const EditProfile: NextPage = () => {
     setValue,
     setError,
     formState: { errors },
+    watch,
   } = useForm<EditForm>();
 
   // 프로필 수정 API 요청 (POST)
@@ -36,12 +40,37 @@ const EditProfile: NextPage = () => {
     useMt<EditResponse>("/api/users/edit");
 
   // 폼 제출 함수
-  const onValid = (dataForm: EditForm) => {
+  const onValid = async (dataForm: EditForm) => {
     // 이미 요청중일 경우 기다리게 함
     if (mtloading) return;
 
-    // // API 요청 함수
-    editProfile(dataForm);
+    // 로그인 유저가 프로필이미지를 변경했다면
+    if (dataForm.avatarUrl && dataForm.avatarUrl.length === 1 && user) {
+      // (GET), CloudFlare 업로드 URL 요청 빈 업로드URL을 받음
+      const cloudflareReq = await (await fetch(`/api/cloudflare`)).json();
+
+      // (POST), 받은 업로드 URL에 이미지파일 업로드
+      // avatarUrlId: cloudflare에 올린 이미지의 id
+      const form = new FormData();
+      form.append("file", dataForm.avatarUrl[0], user.id + "");
+      const {
+        result: { id: avatarUrlId },
+      } = await (
+        await fetch(cloudflareReq.uploadURL, {
+          method: "POST",
+          body: form,
+        })
+      ).json();
+
+      // // API 요청 (/api/users/edit)
+      editProfile({
+        ...dataForm,
+        avatarUrlId,
+      });
+    } else {
+      // // API 요청 (/api/users/edit)
+      editProfile(dataForm);
+    }
   };
 
   // 폼에 DB 로그인 유저의 정보 set
@@ -54,6 +83,11 @@ const EditProfile: NextPage = () => {
     }
     if (user?.phone) {
       setValue("phone", user.phone);
+    }
+    if (user?.avatarUrl) {
+      setAvatarPreviewURL(
+        `https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${user?.avatarUrl}/avatar`
+      );
     }
   }, [user, setValue]);
   // API 응답에서 에러메시지가 발견되면 에러메시지 폼에 출력
@@ -71,18 +105,42 @@ const EditProfile: NextPage = () => {
     }
   }, [mtdata, router]);
 
+  // 프로필 업로드 미리보기
+  const watchAvatarURL = watch("avatarUrl");
+  const [avatarPreviewURL, setAvatarPreviewURL] = useState("");
+  useEffect(() => {
+    if (watchAvatarURL && watchAvatarURL.length === 1) {
+      const avatarBrowserFile = watchAvatarURL[0];
+      // 브라우저 메모리에 있는 URL을 변수에 저장
+      setAvatarPreviewURL(URL.createObjectURL(avatarBrowserFile));
+    }
+  }, [watchAvatarURL]);
+
   return (
     <Layout canGoBack>
       <form onSubmit={handleSubmit(onValid)} className="space-y-4 px-5 py-14">
         {/* 프로필 이미지 수정 */}
         <div className="flex flex-col items-center justify-center space-y-3 space-x-3">
-          <div className="h-14 w-14 rounded-full bg-gray-500" />
+          {avatarPreviewURL ? (
+            <img
+              src={avatarPreviewURL}
+              className="h-14 w-14 rounded-full bg-gray-500"
+            />
+          ) : (
+            <div className="h-14 w-14 rounded-full bg-gray-500" />
+          )}
           <label
-            htmlFor="img"
+            htmlFor="avatarUrl"
             className="cursor-pointer rounded-md border border-gray-300 py-2 px-3 text-xs font-medium text-gray-700 shadow-sm hover:border-orange-500 hover:bg-orange-400 hover:text-white focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
           >
             프로필 이미지 변경
-            <input accept="image/*" id="img" type="file" className="hidden" />
+            <input
+              {...register("avatarUrl")}
+              accept="image/*"
+              id="avatarUrl"
+              type="file"
+              className="hidden"
+            />
           </label>
         </div>
         {/* 이름 수정 */}

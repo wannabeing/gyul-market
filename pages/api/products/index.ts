@@ -11,14 +11,15 @@ async function handler(
 ) {
   // 상품 생성
   if (req.method === "POST") {
-    const { name, price, des } = req.body;
+    const { name, price, des, imgUrl } = req.body;
+
     const { user } = req.session;
     const product = await client.product.create({
       data: {
         name,
         price,
         des,
-        imgUrl: "",
+        imgUrl,
         user: {
           connect: {
             id: user?.id,
@@ -26,12 +27,12 @@ async function handler(
         },
       },
     });
-    res.json({
+    return res.json({
       ok: true,
       product,
     });
   }
-  // 모든  상품 조회
+  // 모든 상품 조회
   if (req.method === "GET") {
     const { page } = req.query;
     if (!page) return;
@@ -48,7 +49,7 @@ async function handler(
       },
     });
 
-    res.json({
+    return res.json({
       ok: true,
       products,
     });

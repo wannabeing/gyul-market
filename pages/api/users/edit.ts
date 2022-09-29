@@ -10,8 +10,9 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const { user } = req.session;
-  const { email, phone, name } = req.body;
-  // 로그인 유저 정보
+  const { email, phone, name, avatarUrlId: avatarUrl } = req.body;
+
+  // // 로그인 유저 정보
   const currentUser = await client.user.findUnique({
     where: { id: user?.id },
   });
@@ -34,7 +35,7 @@ async function handler(
       where: { id: user?.id },
       data: { email },
     });
-    res.json({ ok: true, replace: true });
+    return res.json({ ok: true, replace: true });
   }
   // 휴대폰 업데이트 (DB의 휴대폰과 다른 경우에만 로직 실행)
   if (phone && phone !== currentUser?.phone) {
@@ -53,7 +54,7 @@ async function handler(
       where: { id: user?.id },
       data: { phone },
     });
-    res.json({ ok: true, replace: true });
+    return res.json({ ok: true, replace: true });
   }
   // 이름 업데이트
   if (name && name !== currentUser?.name) {
@@ -61,10 +62,19 @@ async function handler(
       where: { id: user?.id },
       data: { name },
     });
-    res.json({ ok: true, replace: true });
+    return res.json({ ok: true, replace: true });
   }
 
-  res.json({ ok: false, error: "다시 입력해주세요." });
+  // 프로필 이미지 업데이트
+  if (avatarUrl) {
+    await client.user.update({
+      where: { id: user?.id },
+      data: { avatarUrl },
+    });
+    return res.json({ ok: true, replace: true });
+  }
+
+  return res.json({ ok: false, error: "다시 입력해주세요." });
 }
 // 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["POST"], handler }));
