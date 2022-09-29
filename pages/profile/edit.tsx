@@ -3,10 +3,11 @@ import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { cls } from "@libs/client/utils";
+import { cls, getImgSrc } from "@libs/client/utils";
 import useMt from "@libs/client/useMt";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import Image from "next/image";
 
 interface EditForm {
   name?: string;
@@ -85,9 +86,7 @@ const EditProfile: NextPage = () => {
       setValue("phone", user.phone);
     }
     if (user?.avatarUrl) {
-      setAvatarPreviewURL(
-        `https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${user?.avatarUrl}/avatar`
-      );
+      setAvatarPreviewURL(getImgSrc(user.avatarUrl, "avatar"));
     }
   }, [user, setValue]);
   // API 응답에서 에러메시지가 발견되면 에러메시지 폼에 출력
@@ -121,10 +120,14 @@ const EditProfile: NextPage = () => {
       <form onSubmit={handleSubmit(onValid)} className="space-y-4 px-5 py-14">
         {/* 프로필 이미지 수정 */}
         <div className="flex flex-col items-center justify-center space-y-3 space-x-3">
+          {/* 업로드 프로필 미리보기 */}
           {avatarPreviewURL ? (
-            <img
+            <Image
+              width={56}
+              height={56}
               src={avatarPreviewURL}
-              className="h-14 w-14 rounded-full bg-gray-500"
+              className="rounded-full bg-gray-500"
+              alt="avatar"
             />
           ) : (
             <div className="h-14 w-14 rounded-full bg-gray-500" />

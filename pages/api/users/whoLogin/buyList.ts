@@ -15,6 +15,9 @@ async function handler(
     where: {
       userId: user?.id,
     },
+    orderBy: {
+      created: "desc",
+    },
     include: {
       product: {
         include: {

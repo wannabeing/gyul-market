@@ -21,9 +21,10 @@ export default function ProductList({ kind }: IListKind) {
       {data[kind].map((item) => (
         <Item
           key={item.id}
+          id={item.product.id}
           title={item.product.name}
           price={item.product.price}
-          id={item.product.id}
+          imgUrl={item.product.imgUrl}
           likes={item.product._count.favLists}
           createdAt={item.product.created}
         />

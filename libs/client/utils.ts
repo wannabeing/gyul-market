@@ -28,3 +28,10 @@ export function timeForToday(value: Date) {
 
   return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
+
+// img URL 함수
+export function getImgSrc(url: string, kind?: "product" | "avatar") {
+  return `https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${url}/${
+    kind ? kind : "public"
+  }`;
+}

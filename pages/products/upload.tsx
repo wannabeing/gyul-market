@@ -5,6 +5,7 @@ import useMt from "@libs/client/useMt";
 import { Product } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface UploadProductForm {
   imgUrl: FileList;
@@ -87,7 +88,14 @@ const Upload: NextPage = () => {
               htmlFor="img"
               className="mb-5 flex h-56 w-full cursor-pointer items-center justify-center rounded-md border border-gray-300 transition hover:border-orange-500 hover:text-orange-500"
             >
-              <img src={imgPreviewURL} className="h-56 rounded-md p-5" />
+              <div className="relative h-52 w-full border-none">
+                <Image
+                  src={imgPreviewURL}
+                  className="rounded-md object-contain"
+                  layout="fill"
+                  alt="img"
+                />
+              </div>
             </label>
           ) : (
             <label

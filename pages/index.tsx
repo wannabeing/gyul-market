@@ -49,6 +49,7 @@ const Home: NextPage = () => {
               title={product.name}
               price={product.price}
               id={product.id}
+              imgUrl={product.imgUrl}
               likes={product._count.favLists}
               createdAt={product.created}
             />

@@ -6,7 +6,8 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import { Product, User } from "@prisma/client";
 import useMt from "@libs/client/useMt";
-import { cls } from "@libs/client/utils";
+import { cls, getImgSrc } from "@libs/client/utils";
+import Image from "next/image";
 
 interface ProductWithUser extends Product {
   user: User;
@@ -25,7 +26,7 @@ const ItemDetail: NextPage = () => {
 
   // 상품 정보 swr로 가져오기 (GET)
   const { data, mutate } = useSWR<ItemResponse>(
-    router.query ? `/api/products/${router.query.id}` : null
+    router.query.id ? `/api/products/${router.query.id}` : null
   );
   // 상품 정보 가져오기 전까지 로딩구현
   useEffect(() => {
@@ -56,7 +57,7 @@ const ItemDetail: NextPage = () => {
         {loading ? (
           <div className="mb-5 border-b pb-5">
             {/* 상품 상세 이미지 */}
-            <div className="h-96 rounded-md bg-gray-300" />
+            <div className="h-72 rounded-md bg-gray-300" />
             {/* 유저 프로필 */}
             <div>
               <div className="flex items-center space-x-3 border-b py-5 transition hover:text-orange-500">
@@ -98,38 +99,49 @@ const ItemDetail: NextPage = () => {
           // ❌ 로딩 끝 ❌
           <div className="mb-5 border-b pb-5">
             {/* 상품 상세 이미지 */}
-            {data?.product.imgUrl ? (
-              <div className="flex items-center justify-center">
-                <img
-                  className="flex h-96 justify-center rounded-md"
-                  src={`https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${data?.product.imgUrl}/public`}
+            {data?.product?.imgUrl ? (
+              <div className="relative flex h-72 items-center justify-center rounded-md border-b ">
+                <Image
+                  className="rounded-md object-none"
+                  src={getImgSrc(data.product.imgUrl, "product")}
+                  layout="fill"
+                  quality={90}
+                  alt="product"
+                  priority
                 />
               </div>
             ) : (
-              <div className="h-96 rounded-md bg-gray-300" />
+              <div className="h-72 rounded-md bg-gray-300" />
             )}
             {/* 유저 프로필 */}
-            <Link href={`/profiles/${data?.product?.user?.name}`}>
-              <a className="flex cursor-pointer items-center space-x-3 border-b py-5 transition hover:text-orange-500">
-                {/* 프로필사진 */}
-                {data?.product?.user?.avatarUrl ? (
-                  <div className="h-12 w-12 rounded-full bg-orange-300" />
-                ) : (
-                  <div className="h-12 w-12 rounded-full bg-gray-300" />
-                )}
-                <div>
-                  <p className="text-sm font-medium">
+            <div className="flex items-center space-x-3 border-b py-5 pb-4 transition ">
+              {/* 프로필사진 */}
+              {data?.product?.user?.avatarUrl ? (
+                <Image
+                  width={48}
+                  height={48}
+                  src={getImgSrc(data.product.user.avatarUrl, "avatar")}
+                  className="h-12 w-12 rounded-full"
+                  alt="avatar"
+                />
+              ) : (
+                <div className="h-12 w-12 rounded-full bg-gray-300" />
+              )}
+              <Link href={`/profiles/${data?.product?.user?.name}`}>
+                <a>
+                  <p className="text-sm font-medium hover:text-orange-500">
                     {data?.product?.user?.name}
                   </p>
-                </div>
-              </a>
-            </Link>
+                </a>
+              </Link>
+            </div>
+
             {/* 상품 설명 */}
             <div className="mt-5">
-              <h1 className="text-3xl font-bold text-gray-700">
+              <h1 className="text-2xl font-bold text-gray-900">
                 {data?.product?.name}
               </h1>
-              <p className="my-3 block text-right text-3xl text-gray-700">
+              <p className="my-3 block text-right text-xl font-semibold text-gray-700">
                 ${data?.product?.price.toLocaleString("en")}
               </p>
               <p className="mb-3 text-base text-gray-800">

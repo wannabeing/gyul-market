@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { timeForToday } from "@libs/client/utils";
+import { getImgSrc, timeForToday } from "@libs/client/utils";
+import Image from "next/image";
 
 interface ItemProps {
   title: string;
   id: number;
   price: number;
   likes: number;
+  imgUrl?: string;
   createdAt: Date;
 }
 
@@ -14,14 +16,28 @@ export default function Item({
   id,
   price,
   likes,
+  imgUrl,
   createdAt,
 }: ItemProps) {
   return (
     <Link href={`/products/${id}`}>
       <a className="flex cursor-pointer justify-between border-b-0 px-5 py-5 transition hover:bg-gray-200">
         <div className="flex space-x-5">
-          <div className="h-14 w-14 rounded-md bg-gray-500" />
-          <div className="flex flex-col pt-2">
+          {imgUrl ? (
+            <div className="flex h-14 w-14 items-center justify-center rounded-md border border-gray-400 p-1">
+              <div className="relative h-12 w-12">
+                <Image
+                  src={getImgSrc(imgUrl, "avatar")}
+                  className="object-contain"
+                  layout="fill"
+                  alt="product"
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="h-14 w-14 rounded-md bg-gray-500" />
+          )}
+          <div className="flex flex-col">
             <h3 className="text-sm font-medium text-gray-900">{title}</h3>
             <span className="text-xs text-gray-600">
               {timeForToday(createdAt) + ""}

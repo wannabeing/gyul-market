@@ -4,7 +4,8 @@ import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { Review, User } from "@prisma/client";
-import { cls } from "@libs/client/utils";
+import { cls, getImgSrc } from "@libs/client/utils";
+import Image from "next/image";
 
 interface ReviewWithUser extends Review {
   writer: User;
@@ -27,10 +28,17 @@ const Profile: NextPage = () => {
         {/* 프로필 */}
         <div className="flex items-center space-x-3">
           {/* 프로필 이미지 */}
-          <img
-            src={`https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${user?.avatarUrl}/public`}
-            className="h-16 w-16 rounded-full bg-gray-500"
-          />
+          {user?.avatarUrl ? (
+            <Image
+              src={getImgSrc(user.avatarUrl, "avatar")}
+              className="rounded-full bg-gray-500"
+              alt="avatar"
+              width={64}
+              height={64}
+            />
+          ) : (
+            <div className="h-16 w-16 rounded-full bg-gray-500" />
+          )}
           <div className="flex flex-col">
             {/* 닉네임 및 프로필 수정 */}
             {userLoading ? (
@@ -156,7 +164,17 @@ const Profile: NextPage = () => {
               {/* 리뷰 작성자 프로필 */}
               <div className="flex items-center space-x-4">
                 {/* 프로필 이미지 */}
-                <div className="h-12 w-12 rounded-full bg-gray-500" />
+                {review.writer.avatarUrl ? (
+                  <Image
+                    src={getImgSrc(review.writer.avatarUrl, "avatar")}
+                    width={48}
+                    height={48}
+                    className="rounded-full bg-gray-500"
+                    alt="avatar"
+                  />
+                ) : (
+                  <div className="h-12 w-12 rounded-full bg-gray-500" />
+                )}
                 <div>
                   <h4 className="text-sm font-bold text-gray-700">
                     {review.writer.name}

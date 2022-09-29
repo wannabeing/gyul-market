@@ -1,4 +1,4 @@
-// 상품 등록 API
+// 특정 상품 조회 API
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
