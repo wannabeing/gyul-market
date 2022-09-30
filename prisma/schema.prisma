@@ -136,8 +136,8 @@ model Review {
   grade      Int      @default(1)
   created    DateTime @default(now())
   upadated   DateTime @updatedAt
-  writer     User     @relation(name: "writeReview", fields: [writerId], references: [id])
-  receiver   User     @relation(name: "receiveReview", fields: [ReceiverId], references: [id])
+  writer     User     @relation(name: "writeReview", fields: [writerId], references: [id], onDelete: Cascade)
+  receiver   User     @relation(name: "receiveReview", fields: [ReceiverId], references: [id], onDelete: Cascade)
   writerId   Int
   ReceiverId Int
 }
@@ -146,9 +146,12 @@ model Review {
 model LiveStream {
   id           Int           @id @default(autoincrement())
   name         String
+  streamId     String
+  streamUrl    String
+  streamKey    String
   created      DateTime      @default(now())
   upadated     DateTime      @updatedAt
-  user         User          @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       Int
   livemessages LiveMessage[]
 }
@@ -159,8 +162,8 @@ model LiveMessage {
   msg          String     @db.MediumText
   created      DateTime   @default(now())
   upadated     DateTime   @updatedAt
-  user         User       @relation(fields: [userId], references: [id])
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       Int
-  livestream   LiveStream @relation(fields: [liveStreamId], references: [id])
+  livestream   LiveStream @relation(fields: [liveStreamId], references: [id], onDelete: Cascade)
   liveStreamId Int
 }

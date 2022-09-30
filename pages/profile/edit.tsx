@@ -48,7 +48,7 @@ const EditProfile: NextPage = () => {
     // 로그인 유저가 프로필이미지를 변경했다면
     if (dataForm.avatarUrl && dataForm.avatarUrl.length === 1 && user) {
       // (GET), CloudFlare 업로드 URL 요청 빈 업로드URL을 받음
-      const cloudflareReq = await (await fetch(`/api/cloudflare`)).json();
+      const cloudflareReq = await (await fetch(`/api/imgfile`)).json();
 
       // (POST), 받은 업로드 URL에 이미지파일 업로드
       // avatarUrlId: cloudflare에 올린 이미지의 id

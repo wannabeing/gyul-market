@@ -105,16 +105,34 @@ const StreamDetail: NextPage = () => {
   return (
     <Layout canGoBack>
       {streamData ? (
-        <div className="space-y-4 px-5 py-14">
-          <div className="aspect-video w-full rounded-md bg-gray-500 shadow-sm" />
+        <div className="space-y-5 px-5 py-14">
+          {streamData.stream.streamId ? (
+            <iframe
+              src={`https://iframe.videodelivery.net/${streamData.stream.streamId}`}
+              className="aspect-video w-full rounded-md shadow-sm"
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+              allowFullScreen={true}
+            />
+          ) : (
+            <div className="aspect-video w-full rounded-md bg-gray-400 shadow-sm" />
+          )}
+
           <div className="mt-5 border-b pb-5">
             {/* 라이브 제목 */}
             <h1 className="text-2xl font-bold text-gray-700">
               {streamData?.stream?.name}
             </h1>
+            <div className="flex max-w-lg flex-col items-center justify-center overflow-scroll border-none px-5 pb-5">
+              <span className="text-red-400">
+                {streamData?.stream?.streamKey}
+              </span>
+              <span className="text-red-400">
+                {streamData?.stream?.streamUrl}
+              </span>
+            </div>
           </div>
           {/* 채팅 */}
-          <div className="my-10 h-[50vh] space-y-5 overflow-y-scroll px-5 pb-16">
+          <div className="my-10 h-[25vh] space-y-5 overflow-y-scroll px-5">
             {streamData.stream.livemessages.map((livemessage) => (
               <Message
                 key={livemessage.id}
@@ -126,7 +144,7 @@ const StreamDetail: NextPage = () => {
             <div ref={scrollRef} />
           </div>
           {/* 채팅 버튼 */}
-          <div className="fixed inset-x-0 bottom-4 mx-auto w-full  max-w-md rounded-full shadow-xl">
+          <div className="fixed inset-x-0 bottom-4 mx-auto w-full max-w-lg rounded-full shadow-xl">
             <form
               onSubmit={handleSubmit(onValid)}
               className="relative flex items-center"

@@ -9,7 +9,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { CF_ID, CF_TOKEN } = process.env;
+  const { CF_ID, CF_IMG_TOKEN } = process.env;
   // 비어있는 Direct upload URL 얻기 (POST)
   const response = await (
     await fetch(
@@ -18,7 +18,7 @@ async function handler(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${CF_TOKEN}`,
+          Authorization: `Bearer ${CF_IMG_TOKEN}`,
         },
       }
     )

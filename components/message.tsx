@@ -18,10 +18,10 @@ export default function Message({ text, mytext, avatarUrl }: MessageProps) {
       <div
         className={cls(
           mytext ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700",
-          "w-1/2 rounded-lg p-3 text-sm"
+          "h-10 w-1/2 rounded-lg p-3 text-sm"
         )}
       >
-        <p>{text}</p>
+        <p className="">{text}</p>
       </div>
     </div>
   );

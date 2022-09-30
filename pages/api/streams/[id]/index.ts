@@ -10,8 +10,10 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const { id } = req.query;
+  const { user } = req.session;
   if (!id) return;
 
+  // 유저에게 보여질 특정 라이브스트림
   const stream = await client.liveStream.findUnique({
     where: {
       id: +id.toString(),
@@ -33,6 +35,15 @@ async function handler(
   });
   // 존재하지 않는 라이브스트림 조회시 false 반환
   if (!stream) return res.json({ ok: false });
+
+  // 특정 라이브스트림을 들어온 사람이 스트리머인지 확인
+  const isStreamer = stream.userId === user?.id;
+
+  // 스트리머가 아니면 스트림 정보 삭제
+  if (stream && !isStreamer) {
+    stream.streamKey = "";
+    stream.streamUrl = "";
+  }
 
   res.json({
     ok: true,

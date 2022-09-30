@@ -5,6 +5,7 @@ import Layout from "@components/layout";
 import { LiveStream } from "@prisma/client";
 import useSWR from "swr";
 import { timeForToday } from "@libs/client/utils";
+import Image from "next/image";
 
 interface StreamsResponse {
   ok: boolean;
@@ -22,7 +23,14 @@ const Streams: NextPage = () => {
           {streamData.streams.map((stream) => (
             <Link key={stream.id} href={`/streams/${stream.id}`}>
               <a className="block px-5 pt-4 hover:font-bold hover:text-orange-500">
-                <div className="aspect-video w-full rounded-md bg-gray-500 shadow-sm" />
+                <div className="relative aspect-video w-full overflow-hidden rounded-md bg-gray-400 shadow-sm">
+                  <Image
+                    src={`https://videodelivery.net/${stream.streamId}/thumbnails/thumbnail.jpg?height=320`}
+                    layout="fill"
+                    alt="thumbnail"
+                  />
+                </div>
+
                 <div className="mx-1 mt-2 flex items-center justify-between">
                   <h3 className=" text-lg">{stream.name}</h3>
                   <span className="text-sm text-gray-400">
