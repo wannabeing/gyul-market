@@ -17,18 +17,24 @@ const Streams: NextPage = () => {
   const { data: streamData } = useSWR<StreamsResponse>("/api/streams");
 
   return (
-    <Layout title="라이브스트림" hasTabBar>
+    <Layout title="라이브스트림" hasTabBar pageTitle="라이브스트림">
       {streamData ? (
         <div className="space-y-4 divide-y-2 py-5">
           {streamData.streams.map((stream) => (
             <Link key={stream.id} href={`/streams/${stream.id}`}>
               <a className="block px-5 pt-4 hover:font-bold hover:text-orange-500">
                 <div className="relative aspect-video w-full overflow-hidden rounded-md bg-gray-400 shadow-sm">
-                  <Image
-                    src={`https://videodelivery.net/${stream.streamId}/thumbnails/thumbnail.jpg?height=320`}
-                    layout="fill"
-                    alt="thumbnail"
-                  />
+                  {stream.streamId ? (
+                    <Image
+                      src={`https://videodelivery.net/${stream.streamId}/thumbnails/thumbnail.jpg?height=320`}
+                      layout="fill"
+                      alt="thumbnail"
+                    />
+                  ) : (
+                    <div className="bg-gray-200-200 flex h-full items-center justify-center font-bold text-gray-700">
+                      방송중이 아닙니다. 😅
+                    </div>
+                  )}
                 </div>
 
                 <div className="mx-1 mt-2 flex items-center justify-between">

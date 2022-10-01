@@ -36,7 +36,7 @@ const CreateLiveStream: NextPage = () => {
   }, [router, mtdata]);
 
   return (
-    <Layout canGoBack>
+    <Layout canGoBack pageTitle="스트리밍 준비">
       <form onSubmit={handleSubmit(onValid)} className="space-y-5 px-5 py-14">
         {/* 라이브 제목 */}
         <div>

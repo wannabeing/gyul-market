@@ -4,7 +4,7 @@ import ProductList from "@components/productList";
 
 const Soldlist: NextPage = () => {
   return (
-    <Layout canGoBack title="판매내역">
+    <Layout canGoBack title="판매내역" pageTitle="판매내역">
       <div className="flex flex-col pt-8">
         <ProductList kind="soldList" />
       </div>

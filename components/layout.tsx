@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { cls } from "@libs/client/utils";
+import Head from "next/head";
 
 interface LayoutProps {
   title?: string;
   canGoBack?: boolean;
   hasTabBar?: boolean;
+  pageTitle?: string;
   children: React.ReactNode;
 }
 
@@ -14,6 +16,7 @@ export default function Layout({
   canGoBack,
   hasTabBar,
   children,
+  pageTitle,
 }: LayoutProps) {
   const router = useRouter();
 
@@ -27,6 +30,9 @@ export default function Layout({
   };
   return (
     <div>
+      <Head>
+        <title>{`${pageTitle} | 귤마켓🍊`}</title>
+      </Head>
       {/* Nav Bar */}
       <div
         className={cls(
@@ -36,11 +42,11 @@ export default function Layout({
       >
         {/* Can Go Back?  */}
         {canGoBack ? (
-          <div className="flex items-center justify-center transition">
+          <div className="flex items-center justify-center space-x-3 transition">
             {/* 뒤로가기 버튼 */}
             <button
               onClick={goBack}
-              className="rounded-full px-3 py-3 hover:bg-gray-300 "
+              className="rounded-full p-1 hover:bg-gray-300 "
             >
               <svg
                 className="h-6 w-6"
@@ -60,7 +66,7 @@ export default function Layout({
             {/* 홈으로 버튼 */}
             <button
               onClick={goHome}
-              className="rounded-full px-3 py-3 hover:bg-gray-300 "
+              className="rounded-full p-1 hover:bg-gray-300 "
             >
               <svg
                 className="h-6 w-6"
@@ -82,7 +88,10 @@ export default function Layout({
         {/* Title */}
         {title ? (
           <span
-            className={cls(canGoBack ? "p-3" : "", "border-none font-bold")}
+            className={cls(
+              canGoBack ? "py-3 pl-3" : "",
+              "border-none font-bold"
+            )}
           >
             {title}
           </span>

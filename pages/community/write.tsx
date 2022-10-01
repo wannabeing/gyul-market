@@ -40,7 +40,7 @@ const CommunityWrite: NextPage = () => {
   const { longitude, latitude } = useLocation();
 
   return (
-    <Layout canGoBack>
+    <Layout canGoBack pageTitle="동네생활 글 작성">
       <form className="px-5 py-14" onSubmit={handleSubmit(onValid)}>
         {/* 답변 폼 */}
         <textarea

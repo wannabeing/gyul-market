@@ -79,7 +79,7 @@ const Upload: NextPage = () => {
   }, [watchImg]);
 
   return (
-    <Layout canGoBack>
+    <Layout canGoBack pageTitle="나의 귤 업로드">
       <form onSubmit={handleSubmit(onValid)} className="px-5 py-14">
         {/* 이미지 업로드 */}
         <div>

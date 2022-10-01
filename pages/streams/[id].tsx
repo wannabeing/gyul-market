@@ -1,15 +1,14 @@
 import { NextPage } from "next";
 import Layout from "@components/layout";
 import Message from "@components/message";
-import SendBtn from "@components/sendBtn";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { LiveMessage, LiveStream } from "@prisma/client";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import useMt from "@libs/client/useMt";
-import messages from "pages/api/streams/[id]/messages";
 import useUser from "@libs/client/useUser";
+import dynamic from "next/dynamic";
 
 interface StreamResponse {
   ok: boolean;
@@ -102,8 +101,20 @@ const StreamDetail: NextPage = () => {
     scrollRef?.current?.scrollIntoView();
   });
 
+  // 클립보드 복사 버튼
+  const CopyBtn = dynamic(
+    () => import(`@components/clipboard`).then((mod) => mod.CopyClipboard),
+    {
+      ssr: false,
+    }
+  );
+
   return (
-    <Layout canGoBack>
+    <Layout
+      canGoBack
+      pageTitle={streamData?.stream.name}
+      title={streamData?.stream.name}
+    >
       {streamData ? (
         <div className="space-y-5 px-5 py-14">
           {streamData.stream.streamId ? (
@@ -119,17 +130,22 @@ const StreamDetail: NextPage = () => {
 
           <div className="mt-5 border-b pb-5">
             {/* 라이브 제목 */}
-            <h1 className="text-2xl font-bold text-gray-700">
-              {streamData?.stream?.name}
+            <h1 className="mb-3 text-2xl font-bold text-gray-700">
+              {streamData.stream?.name}
             </h1>
-            <div className="flex max-w-lg flex-col items-center justify-center overflow-scroll border-none px-5 pb-5">
-              <span className="text-red-400">
-                {streamData?.stream?.streamKey}
-              </span>
-              <span className="text-red-400">
-                {streamData?.stream?.streamUrl}
-              </span>
-            </div>
+            {/* 스트리머한테만 제공 */}
+            {streamData.stream.streamKey && streamData.stream.streamUrl ? (
+              <div className="mb-5 flex items-center justify-center overflow-x-scroll rounded-md border px-5">
+                <div className="flex items-center justify-center space-x-1 p-3">
+                  <div className="font-bold">서버URL </div>
+                  <CopyBtn content={streamData.stream.streamUrl} />
+                </div>
+                <div className="flex items-center justify-center space-x-1 p-3">
+                  <div className="font-bold">스트림키 </div>
+                  <CopyBtn content={streamData.stream.streamKey} />
+                </div>
+              </div>
+            ) : null}
           </div>
           {/* 채팅 */}
           <div className="my-10 h-[25vh] space-y-5 overflow-y-scroll px-5">

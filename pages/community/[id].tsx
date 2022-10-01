@@ -97,7 +97,11 @@ const CommunityPostDetail: NextPage = () => {
   }, [reset, mutate, answerData]);
 
   return (
-    <Layout canGoBack title={postData ? `${postData?.post?.question}` : ""}>
+    <Layout
+      canGoBack
+      title={postData ? `${postData?.post?.question}` : ""}
+      pageTitle={postData?.post.question}
+    >
       {postData ? (
         <div className="pt-10">
           {/* 태그 */}

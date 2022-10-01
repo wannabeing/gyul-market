@@ -10,6 +10,7 @@ import LoadingList from "@components/loadingList";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Page from "twilio/lib/base/Page";
+import client from "@libs/server/prisma-client";
 
 interface PostWithUser extends Post {
   user: User;
@@ -20,7 +21,7 @@ interface PostResponse {
   posts: PostWithUser[];
 }
 
-const Community: NextPage = () => {
+const Community: NextPage<{ posts: PostResponse }> = ({ posts }) => {
   const [page, setPage] = useState(1);
   const { handleSubmit } = useForm();
 
@@ -40,7 +41,7 @@ const Community: NextPage = () => {
   }, [data]);
 
   return (
-    <Layout title="동네생활" hasTabBar>
+    <Layout title="동네생활" hasTabBar pageTitle="동네생활">
       {data ? (
         <div className="space-y-8 py-12 px-5">
           {/* 질문 리스트 */}
@@ -143,4 +144,38 @@ const Community: NextPage = () => {
   );
 };
 
+// ODR TEST CODE 🔥
+// with /api/posts/index.ts - GET Functions
+export async function getStaticProps() {
+  console.log("ODR 실행");
+  const page = 1;
+  const posts = await client.post.findMany({
+    select: {
+      id: true,
+      question: true,
+      longitude: true,
+      latitude: true,
+      created: true,
+      user: {
+        select: { name: true },
+      },
+      _count: {
+        select: {
+          answers: true,
+          curious: true,
+        },
+      },
+    },
+    take: 3 * +page.toString(),
+    orderBy: {
+      created: "desc",
+    },
+  });
+
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+  };
+}
 export default Community;

@@ -40,7 +40,7 @@ const Home: NextPage = () => {
   }, [data]);
 
   return (
-    <Layout title="홈" hasTabBar>
+    <Layout title="홈" hasTabBar pageTitle="홈">
       {!userLoading ? (
         <div className="flex flex-col divide-y-2 pt-3">
           {data?.products?.map((product) => (

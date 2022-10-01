@@ -51,7 +51,7 @@ const ItemDetail: NextPage = () => {
   };
 
   return (
-    <Layout canGoBack>
+    <Layout canGoBack pageTitle={data?.product.name}>
       <div className="px-5 pt-10">
         {/* API 로딩 중 */}
         {loading ? (

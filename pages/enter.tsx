@@ -3,6 +3,7 @@ import { cls } from "@libs/client/utils";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import useMt from "@libs/client/useMt";
+import Head from "next/head";
 
 interface IEnterForm {
   email?: string;
@@ -60,6 +61,9 @@ export default function Enter() {
 
   return (
     <div className="mt-16">
+      <Head>
+        <title>귤마켓 회원가입 🍊</title>
+      </Head>
       <h3 className="text-center text-3xl font-bold">Enter to GYUL</h3>
       <div className="mt-12">
         {mtdata?.ok ? (

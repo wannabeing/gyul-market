@@ -116,7 +116,7 @@ const EditProfile: NextPage = () => {
   }, [watchAvatarURL]);
 
   return (
-    <Layout canGoBack>
+    <Layout canGoBack pageTitle="나의 귤 수정">
       <form onSubmit={handleSubmit(onValid)} className="space-y-4 px-5 py-14">
         {/* 프로필 이미지 수정 */}
         <div className="flex flex-col items-center justify-center space-y-3 space-x-3">

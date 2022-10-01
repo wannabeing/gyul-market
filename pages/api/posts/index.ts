@@ -22,6 +22,9 @@ async function handler(
       },
     });
 
+    // ODR TEST CODE 🔥
+    await res.revalidate("/community");
+
     res.json({
       ok: true,
       post,

@@ -29,7 +29,7 @@ async function handler(
           headers: {
             Authorization: `Bearer ${CF_STREAM_TOKEN}`,
           },
-          body: `{"meta": {"name":"${name}"},"recording": { "timeoutSeconds": 30, "requireSignedURLs": false, "allowedOrigins": ["*.example.com","http://localhost:3000/*"] }}`,
+          body: `{"meta": {"name":"${name}"},"recording": { "timeoutSeconds": 30, "requireSignedURLs": false, "allowedOrigins": ["*.example.com"] }}`,
         }
       )
     ).json();

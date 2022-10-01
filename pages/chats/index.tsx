@@ -4,7 +4,7 @@ import Layout from "@components/layout";
 
 const Chats: NextPage = () => {
   return (
-    <Layout title="채팅" hasTabBar>
+    <Layout title="채팅" hasTabBar pageTitle="채팅">
       <div className="flex flex-col divide-y-2 py-3">
         {/* 채팅 1 */}
         {[1, 1, 1, 1, 1].map((_, i) => (

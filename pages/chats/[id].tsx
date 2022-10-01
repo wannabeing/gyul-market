@@ -4,14 +4,14 @@ import Message from "@components/message";
 
 const ChatsDetail: NextPage = () => {
   return (
-    <Layout canGoBack>
+    <Layout canGoBack pageTitle="test">
       <div className="space-y-5 py-12 px-5">
         {/* 상대 메시지 1 */}
-        <Message text="Hi how much are you selling them for?" />
+        <Message mytext={false} text="Hi how much are you selling them for?" />
         {/* 내 메시지 */}
-        <Message text="2만원" mytext />
+        <Message mytext={true} text="2만원" />
         {/* 상대 메시지 2 */}
-        <Message text="미쳤네" />
+        <Message mytext={false} text="미쳤네" />
         {/* 메시지 입력 폼 */}
         <form className="fixed inset-x-0 bottom-4 mx-auto w-full  max-w-md rounded-full shadow-xl">
           <div className="relative flex items-center">

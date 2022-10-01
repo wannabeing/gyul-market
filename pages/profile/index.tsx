@@ -23,7 +23,7 @@ const Profile: NextPage = () => {
   const { data: reviewData } = useSWR<ReviewResponse>("/api/reviews");
 
   return (
-    <Layout title="나의 귤" hasTabBar>
+    <Layout title="나의 귤" hasTabBar pageTitle="나의 귤">
       <div className="py-10 px-5">
         {/* 프로필 */}
         <div className="flex items-center space-x-3">

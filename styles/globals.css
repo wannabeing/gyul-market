@@ -10,3 +10,20 @@
     margin: 0;
   }
 }
+
+/* FAQ styles */
+.faq-text h1 {
+  @apply font-bold;
+  @apply text-lg;
+  @apply p-3;
+  @apply border-b;
+  @apply m-5;
+  @apply text-start;
+  @apply bg-orange-400;
+  @apply text-white;
+  @apply rounded-md;
+}
+.faq-text p {
+  @apply p-3;
+  @apply font-normal;
+}
