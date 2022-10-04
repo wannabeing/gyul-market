@@ -54,8 +54,8 @@ export default function Enter() {
   // 토큰인증시 리다이렉트
   const router = useRouter();
   useEffect(() => {
-    if (tkData?.ok) {
-      router.push("/");
+    if (tkData && tkData.ok) {
+      router.replace("/");
     }
   }, [tkData, router]);
 

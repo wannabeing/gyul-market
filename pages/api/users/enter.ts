@@ -56,9 +56,10 @@ async function handler(
       to: MY_P!, // 실제 서비스시, phone 변수가 들어가야 함 (+82 추가해야함)
       body: `귤마켓 인증 요청입니다. 인증번호: ${payload} 🍊`,
     });
+    return res.json({ ok: true });
   }
   // mail 인증 요청
-  else if (email) {
+  if (email) {
     // ❌ SENDGRID 사용시
     /*
     const mail = await sendgrid.send({
@@ -77,6 +78,7 @@ async function handler(
     `,
     };
     SendEmail().sendMail(mailOptions, (error) => error && console.log(error));
+    return res.json({ ok: true });
   }
 
   return res.json({ ok: true });
