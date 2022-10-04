@@ -16,6 +16,7 @@ async function handler(
   const tokenFound = await client.token.findUnique({
     where: { payload: token },
   });
+
   if (!tokenFound) return res.status(404).end();
 
   // 토큰번호에 해당하는 유저정보를 쿠키에 저장
@@ -32,4 +33,6 @@ async function handler(
   return res.json({ ok: true });
 }
 // 고차 함수
-export default withIronSession(withHdr({ methods: ["POST"], handler }));
+export default withIronSession(
+  withHdr({ methods: ["POST"], handler, isPrivate: false })
+);

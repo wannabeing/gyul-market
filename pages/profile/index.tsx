@@ -158,8 +158,8 @@ const Profile: NextPage = () => {
             {/* 리뷰 내용 */}
             <div className="mt-4 rounded-md bg-gray-200 p-3 text-sm text-gray-700"></div>
           </div>
-        ) : (
-          reviewData?.reviews.map((review) => (
+        ) : reviewData?.reviews ? (
+          reviewData.reviews.map((review) => (
             <div key={review.id} className="mt-2 border-b py-3">
               {/* 리뷰 작성자 프로필 */}
               <div className="flex items-center space-x-4">
@@ -207,7 +207,7 @@ const Profile: NextPage = () => {
               </div>
             </div>
           ))
-        )}
+        ) : null}
       </div>
     </Layout>
   );

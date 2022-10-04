@@ -41,6 +41,8 @@ model Token {
   upadated DateTime @updatedAt
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int
+
+  @@index([userId])
 }
 
 // 상품
@@ -57,6 +59,8 @@ model Product {
   favLists  FavList[]
   buyLists  BuyList[]
   soldLists SoldList[]
+
+  @@index([userId])
 }
 
 // 상품 - 관심 목록 (Fav)
@@ -68,6 +72,8 @@ model FavList {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+
+  @@index([userId, productId])
 }
 
 // 상품 - 구매 목록 (Buy)
@@ -79,6 +85,8 @@ model BuyList {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+
+  @@index([userId, productId])
 }
 
 // 상품 - 판매 목록 (Sold)
@@ -90,6 +98,8 @@ model SoldList {
   userId    Int
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+
+  @@index([userId, productId])
 }
 
 // 동네생활 - 질문
@@ -104,6 +114,8 @@ model Post {
   userId    Int
   answers   Answer[]
   curious   CuriousPost[]
+
+  @@index([userId])
 }
 
 // 동네생활 - 궁금해요
@@ -115,6 +127,8 @@ model CuriousPost {
   userId   Int
   post     Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId   Int
+
+  @@index([userId, postId])
 }
 
 // 동네생활 - 답변
@@ -127,6 +141,8 @@ model Answer {
   userId   Int
   post     Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId   Int
+
+  @@index([userId, postId])
 }
 
 // 유저 리뷰
@@ -137,9 +153,11 @@ model Review {
   created    DateTime @default(now())
   upadated   DateTime @updatedAt
   writer     User     @relation(name: "writeReview", fields: [writerId], references: [id], onDelete: Cascade)
-  receiver   User     @relation(name: "receiveReview", fields: [ReceiverId], references: [id], onDelete: Cascade)
+  receiver   User     @relation(name: "receiveReview", fields: [receivedId], references: [id], onDelete: Cascade)
   writerId   Int
-  ReceiverId Int
+  receivedId Int
+
+  @@index([writerId, receivedId])
 }
 
 // 라이브 스트림
@@ -154,6 +172,8 @@ model LiveStream {
   user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       Int
   livemessages LiveMessage[]
+
+  @@index([userId])
 }
 
 // 라이브 스트림 - 메시지
@@ -166,4 +186,6 @@ model LiveMessage {
   userId       Int
   livestream   LiveStream @relation(fields: [liveStreamId], references: [id], onDelete: Cascade)
   liveStreamId Int
+
+  @@index([userId, liveStreamId])
 }

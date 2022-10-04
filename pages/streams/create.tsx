@@ -24,6 +24,7 @@ const CreateLiveStream: NextPage = () => {
   // 폼 제출시 실행되는 함수
   const onValid = (dataForm: StreamForm) => {
     if (mtloading) return;
+
     // API 요청 (POST)
     createStream(dataForm);
   };

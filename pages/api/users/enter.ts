@@ -12,6 +12,7 @@ const {
   MY_P,
   SENDGRID_APIKEY,
   MY_EMAIL,
+  NAV_ID,
 } = process.env;
 
 // sendgird 연결 (for mail)
@@ -50,22 +51,23 @@ async function handler(
   });
   // sms 인증 요청
   if (phone) {
-    /* const sms = await twilioClient.messages.create({
+    const sms = await twilioClient.messages.create({
       messagingServiceSid: TWILIO_MSGID,
       to: MY_P!, // 실제 서비스시, phone 변수가 들어가야 함 (+82 추가해야함)
       body: `귤마켓 인증 요청입니다. 인증번호: ${payload} 🍊`,
-    }); */
+    });
   }
   // mail 인증 요청
   else if (email) {
-    /* ❌ SENDGRID 사용시
+    // ❌ SENDGRID 사용시
+    /*
     const mail = await sendgrid.send({
       from: MY_EMAIL!,
       to: MY_EMAIL!,
       subject: "귤마켓 메일 인증 요청 🍊",
       html: `<p>귤마켓 인증번호: <strong>${payload}</strong></p>`,
     }); */
-    /* ❌ nodeMailer 사용시 
+    // ❌ nodeMailer 사용시
     const mailOptions = {
       from: NAV_ID, // 실제 서비스시, 서버 메일 들어가야함
       to: NAV_ID, // 실제 서비스시, 가입 메일 들어가야함
@@ -74,7 +76,7 @@ async function handler(
       <p>귤마켓 인증번호: <strong>${payload}</strong></p>
     `,
     };
-    SendEmail().sendMail(mailOptions, (error) => error && console.log(error)); */
+    SendEmail().sendMail(mailOptions, (error) => error && console.log(error));
   }
 
   return res.json({ ok: true });

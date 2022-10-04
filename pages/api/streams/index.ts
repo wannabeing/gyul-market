@@ -14,14 +14,16 @@ async function handler(
     const { name } = req.body;
     const { user } = req.session;
     const { CF_ID, CF_STREAM_TOKEN } = process.env;
+    if (!user) return;
 
     // cloudflare의 라이브스트리밍 서버 정보 가져오기 (이미지 업로드와 비슷)
-    const {
-      result: {
-        uid: streamId,
-        rtmps: { streamKey, url: streamUrl },
-      },
-    } = await (
+    // const {
+    //   result: {
+    //     uid: streamId,
+    //     rtmps: { streamKey, url: streamUrl },
+    //   },
+    // }
+    const { result } = await (
       await fetch(
         `https://api.cloudflare.com/client/v4/accounts/${CF_ID}/stream/live_inputs`,
         {
@@ -29,22 +31,23 @@ async function handler(
           headers: {
             Authorization: `Bearer ${CF_STREAM_TOKEN}`,
           },
-          body: `{"meta": {"name":"${name}"},"recording": { "timeoutSeconds": 30, "requireSignedURLs": false, "allowedOrigins": ["*.example.com"] }}`,
+          body: `{"meta": {"name":"${name}"},"recording": {"mode":"automatic", "timeoutSeconds": 30, "requireSignedURLs": false, "allowedOrigins": null }}`,
         }
       )
     ).json();
+    if (!result) return res.status(401).json({ ok: false });
 
     // db 저장
     const stream = await client.liveStream.create({
       data: {
         name,
-        streamId,
-        streamUrl,
-        streamKey,
+        streamId: result.uid,
+        streamUrl: result.rtmps.url,
+        streamKey: result.rtmps.streamKey,
 
         user: {
           connect: {
-            id: user?.id,
+            id: user.id,
           },
         },
       },

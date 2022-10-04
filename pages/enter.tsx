@@ -10,7 +10,7 @@ interface IEnterForm {
   phone?: string;
 }
 interface ITokenForm {
-  token: number;
+  token: string;
 }
 interface MutationResult {
   ok: boolean;
@@ -83,7 +83,7 @@ export default function Enter() {
                 {...tkRegister("token")}
                 id="token"
                 name="token"
-                type="number"
+                type="text"
                 className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
                 required
               />
