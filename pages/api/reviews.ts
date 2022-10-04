@@ -13,7 +13,7 @@ async function handler(
 
   const reviews = await client.review.findMany({
     where: {
-      ReceiverId: user?.id,
+      receivedId: user?.id,
     },
     include: {
       writer: {
