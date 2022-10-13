@@ -149,7 +149,7 @@ const ItemDetail: NextPage = () => {
               </p>
               <div className="flex items-center justify-between space-x-2">
                 <button className="focus:ring-off flex-1 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-                  Talk to seller
+                  판매자와 대화하기
                 </button>
                 {/* 관심목록 추가 버튼 */}
                 <button
@@ -198,9 +198,7 @@ const ItemDetail: NextPage = () => {
         )}
         {/* 비슷한 상품들 */}
         <div>
-          <h2 className="text-2xl font-bold text-gray-700">
-            비슷한 상품 or 스티브님의 다른 상품
-          </h2>
+          <h2 className="text-2xl font-bold text-gray-700">비슷한 상품</h2>
           <div className="mt-3 grid grid-cols-2 gap-4">
             {data?.relatedProducts?.map((product) => (
               <div key={product.id} className="mb-5 cursor-pointer">

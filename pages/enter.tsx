@@ -21,9 +21,21 @@ export default function Enter() {
   const [method, setMethod] = useState<"email" | "phone">("email");
 
   // React Hook Form
-  const { register, handleSubmit, reset } = useForm<IEnterForm>();
-  const { register: tkRegister, handleSubmit: tkHandleSubmit } =
-    useForm<ITokenForm>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue: setMailValue,
+  } = useForm<IEnterForm>();
+  const {
+    register: tkRegister,
+    handleSubmit: tkHandleSubmit,
+    setValue: setTokenValue,
+  } = useForm<ITokenForm>();
+
+  // delete
+  setMailValue("email", "123@123.com");
+  setTokenValue("token", "082539");
 
   // POST 유틸리티 (useMt: 대신 API 요청 및 상태/데이터 반환 함수)
   const [mtEnter, { mtloading, mtdata }] =
@@ -64,7 +76,7 @@ export default function Enter() {
       <Head>
         <title>귤마켓 회원가입 🍊</title>
       </Head>
-      <h3 className="text-center text-3xl font-bold">Enter to GYUL</h3>
+      <h3 className="text-center text-3xl font-bold">귤마켓 들어오기</h3>
       <div className="mt-12">
         {mtdata?.ok ? (
           // 토큰 입력 폼
@@ -98,8 +110,11 @@ export default function Enter() {
             {/* 선택 Tab */}
             <div className="flex flex-col items-center">
               <h5 className="text-sm font-medium text-gray-500">
-                둘 중에 하나를 고르시오
+                회원이 아니신가요 ?
               </h5>
+              <span className="cursor-pointer text-lg font-bold text-gray-600 hover:font-extrabold hover:text-orange-400">
+                회원가입
+              </span>
               {/* 선택 버튼 */}
               <div className="my-8 grid w-full grid-cols-2 gap-16 border-b">
                 <button

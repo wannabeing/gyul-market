@@ -1,5 +1,3 @@
-// 암호화된 쿠키(유저ID)를 받아서 테스트하는 파일
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -13,7 +11,7 @@ async function handler(
     where: { id: req.session.user?.id },
   });
 
-  res.json({
+  return res.json({
     ok: true,
     profile,
   });

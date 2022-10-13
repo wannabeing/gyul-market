@@ -18,7 +18,7 @@ export default function Message({ text, mytext, avatarUrl }: MessageProps) {
       <div
         className={cls(
           mytext ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700",
-          "h-10 w-1/2 rounded-lg p-3 text-sm"
+          "flex h-12 w-1/2 items-center justify-start rounded-lg p-3 text-sm"
         )}
       >
         <p className="">{text}</p>

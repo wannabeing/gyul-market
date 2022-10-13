@@ -4,10 +4,10 @@ import Message from "@components/message";
 
 const ChatsDetail: NextPage = () => {
   return (
-    <Layout canGoBack pageTitle="test">
+    <Layout canGoBack pageTitle="test" title="제이비와의 대화">
       <div className="space-y-5 py-12 px-5">
         {/* 상대 메시지 1 */}
-        <Message mytext={false} text="Hi how much are you selling them for?" />
+        <Message mytext={false} text="얼마에 파세요?" />
         {/* 내 메시지 */}
         <Message mytext={true} text="2만원" />
         {/* 상대 메시지 2 */}

@@ -26,9 +26,9 @@ async function handler(
   await req.session.save();
 
   // 유저가 갖고 있는 토큰 모두 삭제
-  await client.token.deleteMany({
-    where: { userId: tokenFound.userId },
-  });
+  // await client.token.deleteMany({
+  //   where: { userId: tokenFound.userId },
+  // });
 
   return res.json({ ok: true });
 }
