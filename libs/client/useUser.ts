@@ -15,12 +15,12 @@ export default function useUser() {
   const { data, error } = useSWR<ProfileResponse>("/api/users/whoLogin");
 
   // 로그인되어있지 않으면 replace
-  const router = useRouter();
-  useEffect(() => {
-    if (data && !data.ok && router.pathname !== "/enter") {
-      router.replace("/enter");
-    }
-  }, [router, data]);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (!data?.ok && router.pathname !== "/enter") {
+  //     router.replace("/enter");
+  //   }
+  // }, [router, data]);
 
   return {
     user: data?.profile,

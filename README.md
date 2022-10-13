@@ -12,6 +12,8 @@
 
 [클릭](https://gyul-market-8bhs1esvp-wannabeing.vercel.app/)하시면 이동합니다.
 
+    로그인 시, 입력되어 있는 값 그대로 로그인/토큰인증 하시면 됩니다.
+
 ---
 
 ## 🚀 개발환경
@@ -27,33 +29,33 @@
 ## 📦 프로젝트 구조
 
     src
-    ├── componenets/* 		# 리액트 컴포넌트 폴더
-    └── libs 				# JS 함수 라이브러리 폴더
-        └── client/* 			# 프론트 JS 폴더
-        └── server/* 			# 서버 JS 폴더
-    └── pages 				# 라우트 폴더
-        └── api					# 내장 API 서버
-            └── posts/* 			# 동네생활 API
-            ├── products/* 			# 상품 API
-            ├── streams/* 			# 라이브 스트리밍 API
-            ├── users/*				# 유저 API
+    ├── componenets/*         # 리액트 컴포넌트 폴더
+    └── libs                  # JS 함수 라이브러리 폴더
+        └── client/*            # 프론트 JS 폴더
+        └── server/* 			      # 서버 JS 폴더
+    └── pages 				        # 라우트 폴더
+        └── api					        # 내장 API 서버
+            └── posts/* 			    # 동네생활 API
+            ├── products/* 			  # 상품 API
+            ├── streams/* 			  # 라이브 스트리밍 API
+            ├── users/*				    # 유저 API
                 ....
-                └── enter.ts 		# sms/mail 인증 API
-                └── token.ts 		# 토큰 발급 API
-          	└── imgfile.ts 			# CloudFlare API
+                └── enter.ts 		    # sms/mail 인증 API
+                └── token.ts 		    # 토큰 발급 API
+          	└── imgfile.ts 			  # CloudFlare API
             	....
-        ├── chats/*				# 채팅 컴포넌트 페이지
+        ├── chats/*				      # 채팅 컴포넌트 페이지
         ├── community/*         # 동네생활 컴포넌트 페이지
         ├── faq/*               # FAQ 컴포넌트 페이지
         ├── products/*          # 상품 컴포넌트 페이지
         ├── profile/*           # 유저 컴포넌트 페이지
         ├── streams/*           # 라이브 스트리밍 컴포넌트 페이지
-        ├── _app.tsx			# 최상위 컴포넌트
-        ├── enter.tsx        	# 회원가입 컴포넌트 페이지
-        └── index.tsx        	# 메인 컴포넌트 페이지
-    ├── posts/*        		# FAQ 정적파일 폴더
-    ├── prisma/*           	# DB 스키마 폴더
-    └── styles/*           	# 전역 CSS 폴더
+        ├── _app.tsx			      # 최상위 컴포넌트
+        ├── enter.tsx        	  # 회원가입 컴포넌트 페이지
+        └── index.tsx        	  # 메인 컴포넌트 페이지
+    ├── posts/*        		    # FAQ 정적파일 폴더
+    ├── prisma/*           	  # DB 스키마 폴더
+    └── styles/*           	  # 전역 CSS 폴더
 
 ---
 
@@ -114,11 +116,11 @@
 
 > ### 로그인 메인페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/1f4005e2-a999-41b6-87c1-afb246eac95c/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/1f4005e2-a999-41b6-87c1-afb246eac95c/image.png" height="500px"/>
 
 > ### 로그아웃 메인페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/efb6aa55-3ace-49f8-b556-806f783df562/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/efb6aa55-3ace-49f8-b556-806f783df562/image.png" height="500px"/>
 
 </details>
 
@@ -127,17 +129,19 @@
 
 > ### 이메일 탭
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/efb6aa55-3ace-49f8-b556-806f783df562/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/efb6aa55-3ace-49f8-b556-806f783df562/image.png" height="500px"/>
 
 > ### 휴대폰 탭
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/4c19dd91-1483-4fd4-bb4e-78b2182a6e7f/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/4c19dd91-1483-4fd4-bb4e-78b2182a6e7f/image.png" height="500px"/>
 
 > ### 토큰 입력 페이지 (로그인 이후)
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/ac11cd23-b416-4c65-ad3b-b8b20813672a/image.png)![](https://velog.velcdn.com/images/wannabeing/post/6fd67132-e8b3-4ae7-8cdf-ae9e1890e3ac/image.png)
-
-> ![](https://velog.velcdn.com/images/wannabeing/post/84fb2a2c-3b8c-464b-b0de-8bcab3df2e28/image.png)
+> ![](https://velog.velcdn.com/images/wannabeing/post/ac11cd23-b416-4c65-ad3b-b8b20813672a/image.png)
+>
+> ![](https://velog.velcdn.com/images/wannabeing/post/6fd67132-e8b3-4ae7-8cdf-ae9e1890e3ac/image.png)
+>
+> <img src="https://velog.velcdn.com/images/wannabeing/post/84fb2a2c-3b8c-464b-b0de-8bcab3df2e28/image.png" height="400px"/>
 
 </details>
 
@@ -146,11 +150,11 @@
 
 > ### 상품 상세 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/0d0a96f4-5a68-4055-99f4-1e2667efeeb8/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/0d0a96f4-5a68-4055-99f4-1e2667efeeb8/image.png" height="500px"/>
 
 > ### 상품 업로드 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/b83a738b-460a-4f8b-a459-83986a3de151/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/b83a738b-460a-4f8b-a459-83986a3de151/image.png" height="500px"/>
 
 </details>
 
@@ -159,15 +163,15 @@
 
 > ### 동네생활 메인 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/e4f1d3ed-8b5e-4bbe-988f-8ef8cc6c9235/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/e4f1d3ed-8b5e-4bbe-988f-8ef8cc6c9235/image.png" height="500px"/>
 
 > ### 동네생활 업로드 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/83c8f8c3-8319-450e-8cb1-36fdc3ad8806/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/83c8f8c3-8319-450e-8cb1-36fdc3ad8806/image.png" height="200px"/>
 
 > ### 동네생활 상세 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/5bc4f447-0c1a-4441-bf6c-2531c068e3bf/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/5bc4f447-0c1a-4441-bf6c-2531c068e3bf/image.png" height="500px"/>
 
 </details>
 
@@ -176,11 +180,11 @@
 
 > ### 채팅 메인 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/4a10817e-fd16-439c-aa6e-1ec5241e37bc/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/4a10817e-fd16-439c-aa6e-1ec5241e37bc/image.png" height="500px"/>
 
 > ### 채팅 상세 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/19dbaebb-3652-421c-ab7b-c5e8ea949141/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/19dbaebb-3652-421c-ab7b-c5e8ea949141/image.png" height="500px"/>
 
 </details>
 
@@ -189,7 +193,7 @@
 
 > ### 라이브 메인 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/6f486840-9a51-4d01-bdec-b09a0fa4200f/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/6f486840-9a51-4d01-bdec-b09a0fa4200f/image.png" height="500px"/>
 
 > ### 라이브 페이지 구현 (OBS 이용)
 >
@@ -197,11 +201,11 @@
 
 > ### 라이브 시작 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/6f54a4fc-0138-4e19-a83f-893a8ffbab6e/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/6f54a4fc-0138-4e19-a83f-893a8ffbab6e/image.png" height="200px"/>
 
 > ### 라이브 상세 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/7ec1d690-f7e5-4be6-b3fd-4bf261d220be/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/7ec1d690-f7e5-4be6-b3fd-4bf261d220be/image.png" height="500px"/>
 
 </details>
 
@@ -210,15 +214,15 @@
 
 > ### 프로필 메인 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/20eb69f7-703a-4390-8d22-63c705fe5581/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/20eb69f7-703a-4390-8d22-63c705fe5581/image.png" height="500px"/>
 
 > ### 판매내역/구매내역/관심목록 페이지 (동일)
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/2de88908-3749-460c-82f1-9640bd1c35e4/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/2de88908-3749-460c-82f1-9640bd1c35e4/image.png" height="500px"/>
 
 > ### 프로필 변경 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/82e58e11-260b-4b07-816b-dea6ae6aa0ac/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/82e58e11-260b-4b07-816b-dea6ae6aa0ac/image.png" height="500px"/>
 
 </details>
 
@@ -227,11 +231,11 @@
 
 > ### FAQ 메인 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/fba705d8-1500-46f9-904f-9bed8ac95ac3/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/fba705d8-1500-46f9-904f-9bed8ac95ac3/image.png" height="500px"/>
 
 > ### FAQ 상세 페이지
 >
-> ![](https://velog.velcdn.com/images/wannabeing/post/882423da-2215-402c-b43e-97935e04210a/image.png)
+> <img src="https://velog.velcdn.com/images/wannabeing/post/882423da-2215-402c-b43e-97935e04210a/image.png" height="500px"/>
 
 </details>
 

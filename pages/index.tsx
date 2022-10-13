@@ -23,8 +23,7 @@ const Home: NextPage = () => {
   const { handleSubmit } = useForm();
 
   // 로그인 사용자 정보
-  // const { user, userLoading } = useUser();
-  const userLoading = false;
+  const { user, userLoading } = useUser();
 
   // swr로 상품 정보 가져오기
   const { data } = useSWR<IProducts>(`/api/products?page=${page}`);
