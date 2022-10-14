@@ -10,7 +10,7 @@
 
 ## 🌐 프로젝트 링크
 
-[클릭](https://gyul-market-8bhs1esvp-wannabeing.vercel.app/enter)하시면 이동합니다.
+[클릭](https://gyul-market-ndzj5xakr-wannabeing.vercel.app/enter)하시면 이동합니다.
 
     로그인 시, 입력되어 있는 값 그대로 로그인/토큰인증 하시면 됩니다.
 
