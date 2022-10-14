@@ -16,7 +16,7 @@ interface MutationResult {
   ok: boolean;
 }
 
-export default function Enter() {
+export default function Enter({}) {
   // email/phone State
   const [method, setMethod] = useState<"email" | "phone">("email");
 
@@ -66,8 +66,8 @@ export default function Enter() {
   // 토큰인증시 리다이렉트
   const router = useRouter();
   useEffect(() => {
-    if (tkData && tkData.ok) {
-      router.replace("/");
+    if (tkData) {
+      router.push("/");
     }
   }, [tkData, router]);
 

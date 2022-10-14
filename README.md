@@ -114,13 +114,14 @@
 <details>
 <summary>메인 페이지 (로그인/로그아웃)</summary>
 
-> ### 로그인 메인페이지
->
-> <img src="https://velog.velcdn.com/images/wannabeing/post/1f4005e2-a999-41b6-87c1-afb246eac95c/image.png" height="500px"/>
+### 로그인 메인페이지
 
-> ### 로그아웃 메인페이지
->
-> <img src="https://velog.velcdn.com/images/wannabeing/post/efb6aa55-3ace-49f8-b556-806f783df562/image.png" height="500px"/>
+<img src="https://velog.velcdn.com/images/wannabeing/post/1f4005e2-a999-41b6-87c1-afb246eac95c/image.png" height="500px"/>
+<br>
+
+### 로그아웃 메인페이지
+
+<img src="https://velog.velcdn.com/images/wannabeing/post/efb6aa55-3ace-49f8-b556-806f783df562/image.png" height="500px"/>
 
 </details>
 
