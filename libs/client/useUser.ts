@@ -16,11 +16,11 @@ export default function useUser() {
 
   // 로그인되어있지 않으면 replace
   const router = useRouter();
-  useEffect(() => {
-    if (!data?.ok && router.pathname !== "/enter") {
-      router.replace("/enter");
-    }
-  }, [router, data]);
+  // useEffect(() => {
+  //   if (!data?.ok && router.pathname !== "/enter") {
+  //     router.push("/enter");
+  //   }
+  // }, [router, data]);
 
   return {
     user: data?.profile,

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import useMt from "@libs/client/useMt";
 import Head from "next/head";
+import client from "@libs/server/prisma-client";
 
 interface IEnterForm {
   email?: string;
@@ -66,7 +67,7 @@ export default function Enter({}) {
   // 토큰인증시 리다이렉트
   const router = useRouter();
   useEffect(() => {
-    if (tkData) {
+    if (tkData && tkData.ok) {
       router.push("/");
     }
   }, [tkData, router]);
