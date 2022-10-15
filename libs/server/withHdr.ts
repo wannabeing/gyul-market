@@ -28,9 +28,9 @@ export default function withHdr({
       return res.status(405).end();
     }
     // 잘못된 접근일 경우 (ex: 로그인이 안되어 있음)
-    // if (isPrivate && !req.session.user) {
-    //   return res.status(401).json({ ok: false, error: "로그인 해주세요!" });
-    // }
+    if (isPrivate && !req.session.user) {
+      return res.status(401).json({ ok: false, error: "로그인 해주세요!" });
+    }
     try {
       // 감싸진 함수가 실행되는 곳
       await handler(req, res);
