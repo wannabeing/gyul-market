@@ -1,5 +1,3 @@
-// 상품 관련 API
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -9,7 +7,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  // 상품 생성
+  // 상품 생성 (POST)
   if (req.method === "POST") {
     const { name, price, des, imgUrl } = req.body;
 
@@ -32,7 +30,7 @@ async function handler(
       product,
     });
   }
-  // 모든 상품 조회
+  // 모든 상품 조회 (GET)
   if (req.method === "GET") {
     const { page } = req.query;
     if (!page) return;
@@ -48,14 +46,12 @@ async function handler(
         created: "desc",
       },
     });
-
     return res.json({
       ok: true,
       products,
     });
   }
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(
   withHdr({ methods: ["POST", "GET"], handler, isPrivate: true })
 );

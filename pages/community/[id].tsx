@@ -24,7 +24,6 @@ interface PostResponse {
   post: PostWithUser;
   isCurious: boolean;
 }
-
 interface AnswerForm {
   answer: string;
 }

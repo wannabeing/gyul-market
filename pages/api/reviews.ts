@@ -1,5 +1,3 @@
-// 로그인 유저의 리뷰목록 조회 (GET)
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -31,5 +29,4 @@ async function handler(
     reviews,
   });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["GET"], handler }));

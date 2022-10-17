@@ -1,5 +1,3 @@
-// CF에게 이미지 업로드 URL 받는 API (GET)
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -24,10 +22,9 @@ async function handler(
     )
   ).json();
 
-  res.json({
+  return res.json({
     ok: true,
     ...response.result,
   });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["GET"], handler }));

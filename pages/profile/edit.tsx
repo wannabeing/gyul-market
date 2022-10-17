@@ -35,21 +35,17 @@ const EditProfile: NextPage = () => {
     formState: { errors },
     watch,
   } = useForm<EditForm>();
-
   // 프로필 수정 API 요청 (POST)
   const [editProfile, { mtdata, mtloading }] =
     useMt<EditResponse>("/api/users/edit");
-
   // 폼 제출 함수
   const onValid = async (dataForm: EditForm) => {
     // 이미 요청중일 경우 기다리게 함
     if (mtloading) return;
-
     // 로그인 유저가 프로필이미지를 변경했다면
     if (dataForm.avatarUrl && dataForm.avatarUrl.length === 1 && user) {
       // (GET), CloudFlare 업로드 URL 요청 빈 업로드URL을 받음
       const cloudflareReq = await (await fetch(`/api/imgfile`)).json();
-
       // (POST), 받은 업로드 URL에 이미지파일 업로드
       // avatarUrlId: cloudflare에 올린 이미지의 id
       const form = new FormData();
@@ -62,14 +58,11 @@ const EditProfile: NextPage = () => {
           body: form,
         })
       ).json();
-
-      // // API 요청 (/api/users/edit)
       editProfile({
         ...dataForm,
         avatarUrlId,
       });
     } else {
-      // // API 요청 (/api/users/edit)
       editProfile(dataForm);
     }
   };
@@ -103,7 +96,6 @@ const EditProfile: NextPage = () => {
       router.push(`/profile`);
     }
   }, [mtdata, router]);
-
   // 프로필 업로드 미리보기
   const watchAvatarURL = watch("avatarUrl");
   const [avatarPreviewURL, setAvatarPreviewURL] = useState("");

@@ -1,5 +1,3 @@
-// 라이브스트림 메시지 생성 POST
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -30,10 +28,9 @@ async function handler(
     },
   });
 
-  res.json({
+  return res.json({
     ok: true,
     streamMsg,
   });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["POST"], handler }));

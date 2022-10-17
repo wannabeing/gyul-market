@@ -47,7 +47,6 @@ const StreamDetail: NextPage = () => {
       router.replace("/streams");
     }
   }, [streamData, router]);
-
   // 라이브스트림 메시지 리액트 훅 폼
   const { register, handleSubmit, reset } = useForm<StreamMsgForm>();
   // 라이브스트림 메시지 생성 API (POST)

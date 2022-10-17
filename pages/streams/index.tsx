@@ -15,7 +15,6 @@ interface StreamsResponse {
 const Streams: NextPage = () => {
   // swr, 모든 라이브스트림 데이터 조회 (GET)
   const { data: streamData } = useSWR<StreamsResponse>("/api/streams");
-
   return (
     <Layout title="라이브스트림" hasTabBar pageTitle="라이브스트림">
       {streamData ? (

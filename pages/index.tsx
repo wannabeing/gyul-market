@@ -12,7 +12,6 @@ import { useForm } from "react-hook-form";
 export interface ProductWithCount extends Product {
   _count: { favLists: number };
 }
-
 interface IProducts {
   ok: boolean;
   products: ProductWithCount[];
@@ -24,10 +23,8 @@ const Home: NextPage = () => {
 
   // 로그인 사용자 정보
   const { user, userLoading } = useUser();
-
   // swr로 상품 정보 가져오기
   const { data } = useSWR<IProducts>(`/api/products?page=${page}`);
-
   // 더보기 클릭 시 실행되는 함수
   const onValid = () => {
     setPage((prev) => prev + 1);

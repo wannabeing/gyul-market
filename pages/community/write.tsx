@@ -18,7 +18,6 @@ interface PostResponse {
 const CommunityWrite: NextPage = () => {
   // 리액트 훅 폼
   const { register, handleSubmit, reset } = useForm<PostForm>();
-
   // API 요청 (POST)
   const [uploadPost, { mtdata, mtloading }] = useMt<PostResponse>("/api/posts");
 
@@ -38,7 +37,6 @@ const CommunityWrite: NextPage = () => {
   };
 
   const { longitude, latitude } = useLocation();
-
   return (
     <Layout canGoBack pageTitle="동네생활 글 작성">
       <form className="px-5 py-14" onSubmit={handleSubmit(onValid)}>

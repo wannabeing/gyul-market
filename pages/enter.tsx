@@ -20,7 +20,6 @@ interface MutationResult {
 export default function Enter({}) {
   // email/phone State
   const [method, setMethod] = useState<"email" | "phone">("email");
-
   // React Hook Form
   const {
     register,
@@ -33,17 +32,14 @@ export default function Enter({}) {
     handleSubmit: tkHandleSubmit,
     setValue: setTokenValue,
   } = useForm<ITokenForm>();
-
   // delete
   setMailValue("email", "123@123.com");
   setTokenValue("token", "082539");
-
   // POST 유틸리티 (useMt: 대신 API 요청 및 상태/데이터 반환 함수)
   const [mtEnter, { mtloading, mtdata }] =
     useMt<MutationResult>("/api/users/enter");
   const [mtToken, { mtloading: tkLoading, mtdata: tkData }] =
     useMt<MutationResult>("/api/users/token");
-
   // Fn
   const onEmailClick = () => {
     reset();
@@ -53,7 +49,6 @@ export default function Enter({}) {
     reset();
     setMethod("phone");
   };
-
   // 로그인시 실행되는 함수
   const onValid = (dataForm: IEnterForm) => {
     if (mtloading) return;
@@ -68,10 +63,9 @@ export default function Enter({}) {
   const router = useRouter();
   useEffect(() => {
     if (tkData && tkData.ok) {
-      router.push("/");
+      router.replace("/");
     }
   }, [tkData, router]);
-
   return (
     <div className="mt-16">
       <Head>

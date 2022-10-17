@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /* input["number"] remove arrow */
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
@@ -10,7 +9,6 @@
     margin: 0;
   }
 }
-
 /* FAQ styles */
 .faq-text h1 {
   @apply font-bold;

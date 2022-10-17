@@ -1,5 +1,3 @@
-// 특정 라이브스트림 조회 GET
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -33,22 +31,18 @@ async function handler(
       },
     },
   });
-  // 존재하지 않는 라이브스트림 조회시 false 반환
   if (!stream) return res.json({ ok: false });
 
   // 특정 라이브스트림을 들어온 사람이 스트리머인지 확인
   const isStreamer = stream.userId === user?.id;
-
   // 스트리머가 아니면 스트림 정보 삭제
   if (stream && !isStreamer) {
     stream.streamKey = "";
     stream.streamUrl = "";
   }
-
-  res.json({
+  return res.json({
     ok: true,
     stream,
   });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["GET"], handler }));

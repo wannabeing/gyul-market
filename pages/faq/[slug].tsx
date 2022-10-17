@@ -29,17 +29,14 @@ export function getStaticPaths() {
     fallback: "blocking",
   };
 }
-
 export const getStaticProps: GetStaticProps = async (context) => {
   // staticpaths를 통해 얻은 파일명을 통해 해당 파일을 읽음
   const { content, data } = matter.read(`./posts/${context?.params?.slug}.md`);
-
   // html 변환
   const { value } = await unified()
     .use(remarkParse)
     .use(remarkHtml)
     .process(content);
-
   return {
     props: {
       post: {

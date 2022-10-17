@@ -14,10 +14,8 @@ const {
   MY_EMAIL,
   NAV_ID,
 } = process.env;
-
 // sendgird 연결 (for mail)
 sendgrid.setApiKey(SENDGRID_APIKEY!);
-
 // twilio 연결 (for sms)
 const twilioClient = twilio(TWILIO_SID, TWILIO_TOKEN);
 
@@ -29,7 +27,6 @@ async function handler(
   const { email, phone } = req.body;
   const user = phone ? { phone } : email ? { email } : null;
   const payload = String(Math.random()).substring(2, 8); // 임의의 토큰번호
-  // 제출한 데이터가 없을 경우
   if (!user) return res.status(400).json({ ok: false });
 
   // 토큰 생성 및 유저생성
@@ -68,6 +65,7 @@ async function handler(
       subject: "귤마켓 메일 인증 요청 🍊",
       html: `<p>귤마켓 인증번호: <strong>${payload}</strong></p>`,
     }); */
+
     // ❌ nodeMailer 사용시
     const mailOptions = {
       from: NAV_ID, // 실제 서비스시, 서버 메일 들어가야함
@@ -80,8 +78,6 @@ async function handler(
     SendEmail().sendMail(mailOptions, (error) => error && console.log(error));
     return res.json({ ok: true });
   }
-
   return res.json({ ok: true });
 }
-
 export default withHdr({ methods: ["POST"], handler, isPrivate: false });

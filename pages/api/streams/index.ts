@@ -1,5 +1,3 @@
-// 라이브스트림 생성 POST, 모든 라이브스트림 조회 GET
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -17,12 +15,6 @@ async function handler(
     if (!user) return;
 
     // cloudflare의 라이브스트리밍 서버 정보 가져오기 (이미지 업로드와 비슷)
-    // const {
-    //   result: {
-    //     uid: streamId,
-    //     rtmps: { streamKey, url: streamUrl },
-    //   },
-    // }
     const { result } = await (
       await fetch(
         `https://api.cloudflare.com/client/v4/accounts/${CF_ID}/stream/live_inputs`,
@@ -36,7 +28,6 @@ async function handler(
       )
     ).json();
     if (!result) return res.status(401).json({ ok: false });
-
     // db 저장
     const stream = await client.liveStream.create({
       data: {
@@ -52,8 +43,7 @@ async function handler(
         },
       },
     });
-
-    res.json({
+    return res.json({
       ok: true,
       stream,
     });
@@ -72,7 +62,7 @@ async function handler(
       },
     });
 
-    res.json({
+    return res.json({
       ok: true,
       streams,
     });

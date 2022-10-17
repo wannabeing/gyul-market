@@ -1,7 +1,4 @@
-// 사용자의 위치를 구하는 Hook
-
 import { useEffect, useState } from "react";
-
 interface IUseLocation {
   latitude: number | null;
   longitude: number | null;

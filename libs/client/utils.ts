@@ -2,7 +2,6 @@
 export function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
-
 // 시간 계산 함수
 export function timeForToday(value: Date) {
   const today = new Date();
@@ -28,7 +27,6 @@ export function timeForToday(value: Date) {
 
   return `${Math.floor(betweenTimeDay / 365)}년전`;
 }
-
 // img URL 함수
 export function getImgSrc(url: string, kind?: "product" | "avatar") {
   return `https://imagedelivery.net/wcUPAZAvdexBQSNKKQ-Z8Q/${url}/${

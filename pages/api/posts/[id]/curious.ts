@@ -1,5 +1,3 @@
-// 동네생활 - 질문글 궁금한 사람 POST
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -12,7 +10,6 @@ async function handler(
   const { user } = req.session;
   const { id } = req.query;
   if (!id) return;
-
   // 부모 Post가 존재하는지 확인
   const post = await client.post.findUnique({
     where: {
@@ -23,7 +20,6 @@ async function handler(
     },
   });
   if (!post) return res.status(404).json({ ok: false, error: "Not Found" });
-
   // 궁금해요 누른 글이 이미 해당 유저 궁금목록에 존재하는지 확인
   const isCurious = await client.curiousPost.findFirst({
     where: {
@@ -34,7 +30,6 @@ async function handler(
       id: true,
     },
   });
-
   // 궁금목록 이미 존재하면 삭제
   if (isCurious) {
     await client.curiousPost.delete({
@@ -50,10 +45,8 @@ async function handler(
       },
     });
   }
-
-  res.json({
+  return res.json({
     ok: true,
   });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["POST"], handler }));

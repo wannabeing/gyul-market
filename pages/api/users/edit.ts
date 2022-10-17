@@ -1,5 +1,3 @@
-// 유저 정보 업데이트 (POST)
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -12,7 +10,7 @@ async function handler(
   const { user } = req.session;
   const { email, phone, name, avatarUrlId: avatarUrl } = req.body;
 
-  // // 로그인 유저 정보
+  // 로그인 유저 정보
   const currentUser = await client.user.findUnique({
     where: { id: user?.id },
   });
@@ -64,7 +62,6 @@ async function handler(
     });
     return res.json({ ok: true, replace: true });
   }
-
   // 프로필 이미지 업데이트
   if (avatarUrl) {
     await client.user.update({
@@ -76,5 +73,4 @@ async function handler(
 
   return res.json({ ok: false, error: "다시 입력해주세요." });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["POST"], handler }));

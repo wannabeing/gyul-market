@@ -24,19 +24,15 @@ const Upload: NextPage = () => {
   // API 요청 Hook (상품 업로드 API)
   const [uploadProduct, { mtloading, mtdata }] =
     useMt<ProductMutationResult>("/api/products");
-
   const router = useRouter();
-
   // 상품 생성시, 해당 상품링크로 이동
   useEffect(() => {
     if (mtdata && mtdata?.ok) {
       router.replace(`/products/${mtdata.product.id}`);
     }
   }, [mtdata, router]);
-
   // 상품이미지의 상태
   const [imgState, setImgState] = useState(true);
-
   // 폼 제출 함수
   const onValid = async (dataForm: UploadProductForm) => {
     // 중복 폼 제출 방지
@@ -45,11 +41,9 @@ const Upload: NextPage = () => {
     if (dataForm.imgUrl.length === 0) {
       return setImgState(false);
     }
-
     if (dataForm.imgUrl && dataForm.imgUrl.length === 1) {
       // (GET), CloudFlare 업로드 URL 요청, 빈 업로드URL을 받음
       const cloudflareReq = await (await fetch(`/api/imgfile`)).json();
-
       // (POST), 받은 업로드 URL에 이미지파일 업로드
       // imgId: cloudflare에 올린 이미지의 id
       const form = new FormData();
@@ -62,7 +56,6 @@ const Upload: NextPage = () => {
           body: form,
         })
       ).json();
-
       // (POST), 상품 생성 API 요청
       uploadProduct({ ...dataForm, imgUrl: imgId });
     }

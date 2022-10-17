@@ -12,7 +12,6 @@ import Image from "next/image";
 interface ProductWithUser extends Product {
   user: User;
 }
-
 interface ItemResponse {
   ok: boolean;
   product: ProductWithUser;
@@ -23,7 +22,6 @@ interface ItemResponse {
 const ItemDetail: NextPage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-
   // 상품 정보 swr로 가져오기 (GET)
   const { data, mutate } = useSWR<ItemResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null

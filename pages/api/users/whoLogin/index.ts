@@ -16,5 +16,4 @@ async function handler(
     profile,
   });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["GET"], handler }));

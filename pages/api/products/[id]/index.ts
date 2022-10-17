@@ -1,5 +1,3 @@
-// 특정 상품 조회 API
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -19,7 +17,6 @@ async function handler(
     include: { user: { select: { id: true, name: true, avatarUrl: true } } },
   });
   if (!product) return res.json({ ok: false });
-
   // 비슷한 상품 찾기 (최대 4개)
   const terms = product?.name.split(" ").map((word) => ({
     name: {
@@ -47,7 +44,6 @@ async function handler(
       },
     })
   );
-
   return res.json({
     ok: true,
     product,
@@ -55,5 +51,4 @@ async function handler(
     isFavProduct,
   });
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["GET"], handler: handler }));

@@ -1,5 +1,3 @@
-// 동네생활 - 질문글 상세 정보 조회 GET
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -12,7 +10,6 @@ async function handler(
   const { id } = req.query;
   const { user } = req.session;
   if (!id) return;
-
   // 질문글 id와 일치하는 질문글(궁금/답변수)/작성자 찾기
   const post = await client.post.findUnique({
     where: {
@@ -48,10 +45,7 @@ async function handler(
       },
     },
   });
-
-  // 없는 질문글에 접근시 false 반환
   if (!post) return res.json({ ok: false });
-
   // 찾은 글이 궁금해요 눌렀는지 확인
   const isCurious = Boolean(
     await client.curiousPost.findFirst({
@@ -64,8 +58,7 @@ async function handler(
       },
     })
   );
-
-  res.json({
+  return res.json({
     ok: true,
     post,
     isCurious,

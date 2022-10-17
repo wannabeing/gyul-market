@@ -28,7 +28,6 @@ const CreateLiveStream: NextPage = () => {
     // API 요청 (POST)
     createStream(dataForm);
   };
-
   const router = useRouter();
   useEffect(() => {
     if (mtdata && mtdata.ok) {

@@ -1,12 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-
 export interface ResponseType {
   ok: boolean;
   [key: string]: any;
 }
-
 type method = "POST" | "GET" | "DELTETE";
-
 interface Ihandler {
   methods: method[];
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
@@ -32,7 +29,6 @@ export default function withHdr({
       return res.status(401).json({ ok: false, error: "로그인 해주세요!" });
     }
     try {
-      // 감싸진 함수가 실행되는 곳
       await handler(req, res);
     } catch (error) {
       console.log(error);

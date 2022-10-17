@@ -37,7 +37,6 @@ export async function getStaticProps() {
     // md파일을 객체로 변환한걸 return
     return { ...matter(readPost).data, slug };
   });
-
   return {
     props: {
       posts,

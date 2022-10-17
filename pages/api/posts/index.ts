@@ -1,5 +1,3 @@
-// 동네생활 - 질문글 업로드 POST / 질문글 조회 GET
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/prisma-client";
 import withHdr, { ResponseType } from "@libs/server/withHdr";
@@ -9,7 +7,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  // 새로운 동네생활-글 생성 (POST)
+  // 새로운 동네생활 - 글 생성 (POST)
   if (req.method === "POST") {
     const { question, longitude, latitude } = req.body;
     const { user } = req.session;
@@ -21,16 +19,12 @@ async function handler(
         user: { connect: { id: user?.id } },
       },
     });
-
-    // ODR TEST CODE 🔥
-    await res.revalidate("/community");
-
-    res.json({
+    return res.json({
       ok: true,
       post,
     });
   }
-  // 동네생활-모든 작성글 조회 (GET)
+  // 동네생활 - 모든 작성글 조회 (GET)
   if (req.method === "GET") {
     const { page } = req.query;
     if (!page) return;
@@ -58,11 +52,10 @@ async function handler(
       },
     });
 
-    res.json({
+    return res.json({
       ok: true,
       posts,
     });
   }
 }
-// 고차 함수 (쿠키 사용)
 export default withIronSession(withHdr({ methods: ["POST", "GET"], handler }));

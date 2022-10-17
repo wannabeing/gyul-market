@@ -27,7 +27,6 @@ const Community: NextPage<{ posts: PostResponse }> = ({ posts }) => {
 
   // SWR로 동네생활 글목록 조회 (GET)
   const { data } = useSWR<PostResponse>(`/api/posts?page=${page}`);
-
   // 더보기 클릭 시 실행되는 함수
   const onValid = () => {
     setPage((prev) => prev + 1);
@@ -143,39 +142,4 @@ const Community: NextPage<{ posts: PostResponse }> = ({ posts }) => {
     </Layout>
   );
 };
-
-// ODR TEST CODE 🔥
-// with /api/posts/index.ts - GET Functions
-export async function getStaticProps() {
-  console.log("ODR 실행");
-  const page = 1;
-  const posts = await client.post.findMany({
-    select: {
-      id: true,
-      question: true,
-      longitude: true,
-      latitude: true,
-      created: true,
-      user: {
-        select: { name: true },
-      },
-      _count: {
-        select: {
-          answers: true,
-          curious: true,
-        },
-      },
-    },
-    take: 3 * +page.toString(),
-    orderBy: {
-      created: "desc",
-    },
-  });
-
-  return {
-    props: {
-      posts: JSON.parse(JSON.stringify(posts)),
-    },
-  };
-}
 export default Community;

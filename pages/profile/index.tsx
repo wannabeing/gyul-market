@@ -18,7 +18,6 @@ interface ReviewResponse {
 const Profile: NextPage = () => {
   // 로그인 유저정보 가져오기
   const { user, userLoading } = useUser();
-
   // swr(GET) 이용하여 로그인유저의 리뷰 가져오기
   const { data: reviewData } = useSWR<ReviewResponse>("/api/reviews");
 

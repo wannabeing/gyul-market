@@ -15,7 +15,6 @@ export default function useMt<T = any>(url: string): MutationResult<T> {
     mtdata: undefined,
     mterror: undefined,
   });
-
   // fn
   function mutation(data: any) {
     setState((prev) => ({ ...prev, mtloading: true }));
@@ -31,6 +30,5 @@ export default function useMt<T = any>(url: string): MutationResult<T> {
       .catch((error) => setState((prev) => ({ ...prev, mterror: error })))
       .finally(() => setState((prev) => ({ ...prev, mtloading: false })));
   }
-
   return [mutation, { ...state }];
 }
